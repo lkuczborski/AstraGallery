@@ -1,0 +1,128 @@
+{
+  "rule": "Keep highest-voted submission; ties retain earliest submission timestamp. Never sum votes. Collapse exact pixels or same source artwork with only logo placement, exposure, or minor crop changes. Distinct photographs of same subject remain distinct.",
+  "allSubmissions": 367,
+  "uniqueArtworks": 358,
+  "removedSubmissions": 9,
+  "exactDuplicateRecords": 2,
+  "visuallyConfirmedNearDuplicateRecords": 7,
+  "candidateReviewCount": 32,
+  "decisions": [
+    {
+      "keep": "ff9eb44a-8c98-44d6-845e-a211b5cb79c8",
+      "remove": [
+        "f49e46a7-fb52-4d87-86d8-efe0fe2f9485"
+      ],
+      "reason": "Exact decoded pixels and dimensions match",
+      "votes": {
+        "ff9eb44a-8c98-44d6-845e-a211b5cb79c8": 0,
+        "f49e46a7-fb52-4d87-86d8-efe0fe2f9485": 0
+      }
+    },
+    {
+      "keep": "dfc5af21-610c-46fa-9879-3f68087b3664",
+      "remove": [
+        "c65d137a-cbda-4518-81c5-b3ff081cae20"
+      ],
+      "reason": "Exact decoded pixels and dimensions match",
+      "votes": {
+        "dfc5af21-610c-46fa-9879-3f68087b3664": 2,
+        "c65d137a-cbda-4518-81c5-b3ff081cae20": 0
+      }
+    },
+    {
+      "keep": "3defdf99-812a-4e0a-b9c1-bb85020dce8e",
+      "remove": [
+        "25e0ce8f-7812-4100-b510-33a0a5a055cc"
+      ],
+      "reason": "Same desk photograph; slightly shifted Codex and OpenAI logos.",
+      "method": "Perceptual hash candidate and visual review",
+      "phashDistance": 2,
+      "dhashDistance": 4,
+      "votes": {
+        "3defdf99-812a-4e0a-b9c1-bb85020dce8e": 0,
+        "25e0ce8f-7812-4100-b510-33a0a5a055cc": 0
+      }
+    },
+    {
+      "keep": "f1e38b88-b774-4324-aea4-5386f4198134",
+      "remove": [
+        "b78bfabb-7b59-404d-ad05-15ce979720a2"
+      ],
+      "reason": "Same character illustration; slightly shifted and resized logo placement.",
+      "method": "Perceptual hash candidate and visual review",
+      "phashDistance": 6,
+      "dhashDistance": 2,
+      "votes": {
+        "f1e38b88-b774-4324-aea4-5386f4198134": 1,
+        "b78bfabb-7b59-404d-ad05-15ce979720a2": 0
+      }
+    },
+    {
+      "keep": "9e7961cd-05f0-4f84-a9ee-405016c16b6a",
+      "remove": [
+        "f1168135-d4f6-4864-ad86-9f3341b430f6"
+      ],
+      "reason": "Same road photograph; different logo placement and minor crop.",
+      "method": "Perceptual hash candidate and visual review",
+      "phashDistance": 8,
+      "dhashDistance": 7,
+      "votes": {
+        "9e7961cd-05f0-4f84-a9ee-405016c16b6a": 0,
+        "f1168135-d4f6-4864-ad86-9f3341b430f6": 0
+      }
+    },
+    {
+      "keep": "0ed66019-7672-4407-8eb9-c309280aad7b",
+      "remove": [
+        "9013b74c-f536-4a92-b56e-8aed09fb3966"
+      ],
+      "reason": "Same event photograph; darker exposure and shifted logos.",
+      "method": "Perceptual hash candidate and visual review",
+      "phashDistance": 14,
+      "dhashDistance": 11,
+      "votes": {
+        "0ed66019-7672-4407-8eb9-c309280aad7b": 3,
+        "9013b74c-f536-4a92-b56e-8aed09fb3966": 1
+      }
+    },
+    {
+      "keep": "6c666bb0-8d99-42f4-af56-4e6818a99748",
+      "remove": [
+        "b4d1a197-861e-4fca-95b3-fbe72264ea12"
+      ],
+      "reason": "Same abstract symbol artwork; different logo placement.",
+      "method": "Perceptual hash candidate and visual review",
+      "phashDistance": 14,
+      "dhashDistance": 12,
+      "votes": {
+        "6c666bb0-8d99-42f4-af56-4e6818a99748": 8,
+        "b4d1a197-861e-4fca-95b3-fbe72264ea12": 2
+      }
+    },
+    {
+      "keep": "9aa7c318-101d-49ec-9900-9fba9ef3576e",
+      "remove": [
+        "80a21745-095b-426a-aee8-3ed20f355132"
+      ],
+      "reason": "Same studio photograph and matching subjects/objects; alternate logo placement, double-logo overlay, and vertical crop. Confirmed by direct viewing of both full originals.",
+      "method": "Full-gallery visual curation followed by original-image comparison",
+      "votes": {
+        "9aa7c318-101d-49ec-9900-9fba9ef3576e": 2176,
+        "80a21745-095b-426a-aee8-3ed20f355132": 220
+      }
+    },
+    {
+      "keep": "aa30f991-555b-43d9-bc92-4c96a8d5b29c",
+      "remove": [
+        "05f44ce1-8caf-4c85-bcaf-6c3c81cd0e0a"
+      ],
+      "reason": "Same school portrait photograph; second record is a tighter crop with repositioned logos. Confirmed by direct viewing of both full originals. Equal source votes; earliest submission retained.",
+      "method": "Full-gallery visual curation followed by original-image comparison",
+      "votes": {
+        "aa30f991-555b-43d9-bc92-4c96a8d5b29c": 1,
+        "05f44ce1-8caf-4c85-bcaf-6c3c81cd0e0a": 1
+      }
+    }
+  ],
+  "additionalVerification": "Three-region perceptual hashes (top, bottom, center) found one remaining close pair: two different photographs of the same person, with visibly different facial expressions. Both retained. Full visual review of all 15 contact sheets discovered two additional repeated-image pairs that were confirmed against the originals and removed."
+}

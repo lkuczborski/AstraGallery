@@ -1,0 +1,48 @@
+{
+  "artworks": 358,
+  "hallOfFame": 10,
+  "themedArtworks": 348,
+  "counts": {
+    "fame": 10,
+    "culture": 203,
+    "city": 41,
+    "nature": 31,
+    "color": 35,
+    "minimal": 38
+  },
+  "curationBasis": "Every artwork visually inspected via all 15 source contact sheets. The room follows the strongest visual theme; labels are new curatorial descriptions, not submitted titles. Top ten remaining distinct artworks ranked by source votes form Hall of Fame.",
+  "rooms": {
+    "city": "Urban Canvas",
+    "nature": "Beyond the Horizon",
+    "minimal": "Less, but Louder",
+    "color": "Chromatic Worlds",
+    "culture": "Human / Machine",
+    "fame": "Hall of Fame"
+  },
+  "hallOfFameIds": [
+    "e1c33363-024e-4da3-b3c6-f7c9228a97bb",
+    "21fb528b-2487-47d2-bd16-3a585fb40bb9",
+    "9aa7c318-101d-49ec-9900-9fba9ef3576e",
+    "68a1e4af-dcee-4567-a924-066f112182e8",
+    "e8443bd8-93f1-42bc-98b5-d846063ea9a3",
+    "88973343-f6b6-4375-8a46-1f386932a328",
+    "89197f79-b203-4251-9fe4-2c1e6ad07bd7",
+    "7c1b018d-41dc-40f0-9d6b-973a1c6723d3",
+    "bef4bec1-662e-4f8e-b143-7512df87a08e",
+    "9e6e58c3-364c-4d6b-9997-072b7333af18"
+  ],
+  "recommendedRoomCoverIds": {
+    "city": "5bd402a1-b798-40ea-af4b-6732138d41a0",
+    "nature": "d2ad7859-9e1a-4d0c-96c1-64976ba1676e",
+    "minimal": "6c666bb0-8d99-42f4-af56-4e6818a99748",
+    "color": "cce85efe-c37d-419e-afc5-3021e4bbdbda",
+    "culture": "415e6da6-ad5e-4e5d-82b2-da82f704846d"
+  },
+  "recommendedRoomCoverNotes": {
+    "city": "Vivid blue stone passage with strong architectural depth.",
+    "nature": "Wide desert dunes with a small figure and sweeping shadows.",
+    "minimal": "Simple cream burst on orange, readable at thumbnail scale.",
+    "color": "Bright iridescent abstract bloom with clear color energy.",
+    "culture": "Warm cafe computing scene centered on shared human activity."
+  }
+}
