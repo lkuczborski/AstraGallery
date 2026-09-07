@@ -4,6 +4,8 @@ Interactive museum built with Vinext, React, Three.js and Sites. Source submissi
 
 ## Collection
 
+The original Codex Billboards project was created by Jess (@itsjessyin): https://x.com/itsjessyin. It lets people create, share and vote on Codex images. The original gallery is https://codex-billboard.vercel.app/gallery. Astra credits the project and Jess on the entrance view, in Collection, and in the visitor guide, alongside individual artwork attribution.
+
 367 submissions were downloaded. Image hashes and visual review identified 9 repeated submissions, leaving 358 distinct works. Deduplication retains the highest-voted submission without combining votes. See dedup-decisions.json and collection-report.json. The Hall of Fame contains the ten highest-voted remaining records.
 
 Work images, thumbnails and available creator avatars are bundled locally. The full-image overlay requests the original source with a local 1200px fallback. Small source images retain their source resolution. Public bios came from FxTwitter's public profile endpoint; unavailable profiles have a truthful fallback. Sharing uses ?art=<id>, the system share sheet or clipboard.

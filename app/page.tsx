@@ -55,6 +55,31 @@ function Star() {
     />
   );
 }
+function ProjectCredit({ expanded = false }: { expanded?: boolean }) {
+  return (
+    <>
+      Works from{' '}
+      <a
+        href="https://codex-billboard.vercel.app/gallery"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Codex Billboards
+      </a>
+      , the community project by{' '}
+      <a
+        href="https://x.com/itsjessyin"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Jess (@itsjessyin)
+      </a>
+      .
+      {expanded &&
+        ' The original project lets people create, share and vote on Codex images. Astra Gallery brings those community submissions into an explorable museum.'}
+    </>
+  );
+}
 function Profile({ work }: { work: Artwork }) {
   return (
     <>
@@ -542,14 +567,16 @@ export default function Gallery() {
               : 'A moment between rooms'}
         </div>
         <h1>{place.name}</h1>
-        <p>
-          {place.street
-            ? '358 ideas. One extraordinary address. Step off the street and into the light.'
-            : place.chamber
-              ? room.subtitle
-              : place.name === 'The courtyard'
-                ? 'Open sky, still water, and a new room in every direction.'
-                : 'Follow the light. The Hall of Fame is through the left doorway.'}
+        <p className={place.street ? 'project-credit' : undefined}>
+          {place.street ? (
+            <ProjectCredit />
+          ) : place.chamber ? (
+            room.subtitle
+          ) : place.name === 'The courtyard' ? (
+            'Open sky, still water, and a new room in every direction.'
+          ) : (
+            'Follow the light. The Hall of Fame is through the left doorway.'
+          )}
         </p>
         {place.street && !tour && (
           <button
@@ -887,6 +914,9 @@ export default function Gallery() {
                 {artworks.length} distinct works, made by the community. Select
                 a work to see it in full.
               </DialogDescription>
+              <p className="project-credit">
+                <ProjectCredit expanded />
+              </p>
               <div className="list-room-nav">
                 <button
                   className={collectionRoom === 'all' ? 'active' : ''}
@@ -954,6 +984,9 @@ export default function Gallery() {
               <DialogDescription className="panel-desc">
                 Astra is a gallery you can wander through at your own pace.
               </DialogDescription>
+              <p className="project-credit">
+                <ProjectCredit expanded />
+              </p>
               <div className="help-grid">
                 <div className="help-item">
                   <strong>Look around</strong>Click and drag anywhere in the
