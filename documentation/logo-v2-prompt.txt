@@ -1,0 +1,11 @@
+Mode: built-in imagegen, generate. Selected output: public/brand/astra-gallery-logo-v2.png.
+
+Use case: logo-brand
+Asset type: final transparent logo asset for a sophisticated modern art gallery website header and illuminated architectural signage.
+Primary request: Create ONE exquisite original logo for ASTRA GALLERY. Elegant, architectural, editorial wordmark with an original A-like constellation emblem. The emblem should suggest an open architectural capital A, with several restrained fine four-point stars incorporated around its apex and shoulder. Make it distinctive, composed and highly legible at modest header sizes.
+Scene/backdrop: genuinely transparent alpha background throughout, including around and between all letters. No opaque rectangle, no simulated checkerboard.
+Style/medium: precise, polished vector-like identity design. Flat pale ivory/champagne-gold lettering and emblem for placement on very dark charcoal or forest surfaces. Fine but confident strokes; clean contours.
+Composition/framing: a wide horizontal lockup, emblem at left followed by the wordmark ASTRA GALLERY on one single baseline. Generous, considered kerning. Optically balanced spacing. Letterforms with elegant architectural serif details and sufficient weight for sharp small-scale reproduction. Center this one logo on a wide transparent canvas, with a modest clear margin.
+Color palette: pale warm ivory with a subtle champagne gold hue, approximately #E8D6AF. Solid light-colored mark and letters, no shadows or metallic photographic texture.
+Text (verbatim): "ASTRA GALLERY". Spell exactly A S T R A, then G A L L E R Y. This is the only text.
+Constraints: deliver a single logo only, no variants, no mockup, no scenery, no tagline, no gradient backdrop, no additional unrelated symbols, no border, no watermark. Actual transparent background, production-ready isolated mark.

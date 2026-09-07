@@ -1,42 +1,46 @@
-# Astra Gallery — Rooms of Light
+# Astra Gallery — Rooms of Light, second edition
 
-A 65-second cinematic film of the actual Astra Gallery Three.js scene, with its original score.
+A 120-second film of the rebuilt Astra Gallery, rendered from the exact `GalleryWorld` implementation and authored human walking route.
 
-- Composition: `Astra-Gallery`
-- 1280 × 720, 24 fps, 1,560 frames
-- Seven camera shots driven by the shared `tourPose(seconds)` function
-- Original soundtrack: `public/media/astra-rooms-of-light.wav`
-- Output: `out/astra-gallery-rooms-of-light.mp4`
+## Deliverable
 
-## Preview
+- Composition: `Astra-Gallery-v2`
+- 1920 × 1080, 24 fps, 2,880 frames
+- H264 video and stereo AAC audio
+- Original score: `public/media/astra-rooms-of-light-120s.wav`
+- Final output: `out/astra-gallery-rooms-of-light-v2.mp4`
 
-```sh
-npm install
-npx remotion studio --no-open --port=3333
-```
+The delivered file is 21,628,190 bytes (20.6 MiB), below the 25 MiB target. `ffprobe` confirms exactly 120.000 seconds for video, audio, and container. The full file decodes without errors; its 12-frame contact sheet is `out/film-contact-sheet.jpg`. The final soundtrack measures −21.0 dB mean volume and −2.8 dB peak.
 
-Open `http://localhost:3333/Astra-Gallery`.
+The camera walks continuously for the first 48 seconds. Five subsequent edits occur at 48, 70, 84, 97, and 110 seconds. Camera movement is entirely driven by `tourPose(frame / 24)`, with eye height, speed ramps, rounded walking corners, and intentional viewing pauses preserved.
 
 ## Render
 
+Dependencies are identical to the existing `/private/tmp/astra-film` project; `node_modules` currently points there. Run `npm install` to install a separate dependency copy if moving this project.
+
 ```sh
-npx remotion render src/index.ts Astra-Gallery out/astra-gallery-rooms-of-light.mp4 --codec=h264 --crf=25 --concurrency=2 --audio-bitrate=192k --jpeg-quality=90
+npx remotion render src/index.ts Astra-Gallery-v2 out/astra-gallery-rooms-of-light-v2-render.mp4 --codec=h264 --crf=27 --concurrency=2 --audio-bitrate=160k --jpeg-quality=90 --x264-preset=slow
+ffmpeg -i out/astra-gallery-rooms-of-light-v2-render.mp4 -i public/media/astra-rooms-of-light-120s.wav -map 0:v:0 -map 1:a:0 -c:v copy -c:a aac -b:a 160k -ar 48000 -t 120 -movflags +faststart out/astra-gallery-rooms-of-light-v2.mp4
 ```
 
-Chromium needs working GPU/Metal access. In a restricted macOS shell, the process may need to run outside the filesystem sandbox.
+The final mux preserves rendered video quality, gives both tracks an exact 120-second duration, and places the MP4 index first for immediate web playback.
 
-## Scene fidelity
+## Exact scene and deterministic capture
 
-`src/gallery/engine.ts`, `data.ts`, `catalog.json`, and `tour.ts` were copied from the gallery implementation. The rendering adapter adds an optional external renderer parameter to `GalleryEngine`: Remotion's required `ThreeCanvas` supplies that renderer, so only one WebGL context is used. The gallery's construction methods create all geometry, materials, labels, furniture, lights, and room layouts.
+`src/gallery/world.ts`, `layout.ts`, `data.ts`, and `catalog.json` are snapshots of the gallery source. `tour.ts` is the shared authored route. `GalleryWorld` receives the renderer from Remotion's required `ThreeCanvas`; its actual scene is attached as a primitive. ACES tone mapping, exposure 1.04, FOV 59, near plane 0.08, and far plane 270 match the interactive gallery.
 
-The interactive event binding, resize observation, animation loop, and viewport-driven initial texture loading are skipped for film rendering. The first eight works in each collection are loaded before capture, along with all furniture models and limestone PBR textures. Remaining collection geometry is retained. Film frames use `useCurrentFrame()` and the shared `tourPose` to apply exact camera positions and targets. Scene attachment and camera updates complete before `continueRender()` allows frame capture.
+The world loads all artwork previews, furniture, branded façade, PBR material maps, and merged static architecture. `preloadDetails` loads the 77 full-resolution artworks in the seven chambers visited by this film. Capture waits for the actual scene to be attached to React, applies the frame's camera pose, calls `world.update(camera, 1/24, true)`, and draws the scene before clearing `delayRender`.
 
-The gallery's skylight correction is included: the luminous skylight panel does not cast a solid shadow, allowing daylight through the ceiling structure.
+The copied world has two loading-only adapter changes: instant film updates retain preloaded distant detail textures and do not begin asynchronous texture promotions. This prevents frame order from changing image readiness. Geometry, materials, lighting, placements, and the route are retained.
 
-Opening/closing titles and room captions are separate editable React components in `src/scenes/`. The film uses 44-pixel letterboxing and brief fades at camera cuts. The full original 65-second score is preserved.
+Intro, room captions, and end card are editable components in `src/scenes`. `showTitles: false` produces clean scene inspection frames. The optional `inspectionCamera` prop is used only for architectural diagnostic stills; it is absent from the film.
 
-## Verification
+## Verification and performance
 
-TypeScript check: `npx tsc --noEmit`.
+- `npx tsc --noEmit` passes.
+- `out/route-validation.json` reports zero route collisions at 120 samples per second.
+- Initial and revised stills cover the street, Hall of Fame, timber, garden, and velvet rooms.
+- `out/render-diagnostics-batched.json` records the final merged-geometry renderer metrics.
+- On ANGLE Metal / Apple M5 Pro, at 1080p: Hall 814 draw calls and 4.4–6.7 ms; timber 1,438 calls and 7.0–10.2 ms; velvet 1,261 calls and 6.6–8.9 ms. These are warm combined CPU/GPU timings measured with `gl.finish`, not isolated GPU timer queries.
 
-Inspected sample stills: `out/frame-180.png`, `out/frame-820.png`, and `out/frame-1410.png`. All show the real gallery scene and loaded artworks; the final sample shows the interactive studio wall placeholder.
+For repeatable media diagnostics, run `node inspect-batched.mjs`. It renders actual scene artifacts, without browser UI testing, and writes per-frame geometry, texture, program, draw-call, and timing metrics.

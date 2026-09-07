@@ -1,0 +1,54 @@
+{
+  "burgundy-seating-island.glb": {
+    "bytes": 1429416,
+    "meshes": 16,
+    "triangles": 21256,
+    "materials": 4,
+    "embedded_png_textures": 3,
+    "blender_z_up_min": [
+      -1.350000023841858,
+      -1.350000023841858,
+      0.0
+    ],
+    "blender_z_up_max": [
+      1.350000023841858,
+      1.350000023841858,
+      0.4569999873638153
+    ],
+    "three_y_up_dimensions": [
+      2.7,
+      0.457,
+      2.7
+    ],
+    "extensionsUsed": [
+      "KHR_materials_sheen"
+    ],
+    "reimport_success": true
+  },
+  "indoor-tree.glb": {
+    "bytes": 2845416,
+    "meshes": 7,
+    "triangles": 59062,
+    "materials": 9,
+    "embedded_png_textures": 5,
+    "blender_z_up_min": [
+      -0.9608646035194397,
+      -1.0714566707611084,
+      0.0
+    ],
+    "blender_z_up_max": [
+      0.9574558138847351,
+      0.9062343239784241,
+      3.0
+    ],
+    "three_y_up_dimensions": [
+      1.9183,
+      3.0,
+      1.9777
+    ],
+    "extensionsUsed": [
+      "KHR_materials_clearcoat"
+    ],
+    "reimport_success": true
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "layoutSha256": "ef5bd8aa30a37b6a2753bb2de9708d38db38da198fb00a35fc0bbacaa446b0c3",
+  "placements": 358,
+  "uniqueIds": 358,
+  "minimumCornerMargin": 1.0899999999999939,
+  "minimumDoorMargin": 0.9899999999999998,
+  "minimumBetweenEnvelopeGap": 0.9300000000000002,
+  "minimumActualCaptionBottom": 0.5615000000000001,
+  "badViewingPads": [],
+  "graphNodes": 27,
+  "graphEdges": 45,
+  "graphConnected": true,
+  "articulationNodes": [],
+  "bridges": [],
+  "portalCenterlineFailures": [],
+  "grid": {
+    "step": 0.35,
+    "nodes": 248911,
+    "walkable": 183024,
+    "reached": 183024
+  },
+  "unreachableWorks": [],
+  "unreachableChambers": [],
+  "viewRaysCrossingFurniture": []
+}

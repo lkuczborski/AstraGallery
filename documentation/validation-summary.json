@@ -1,0 +1,54 @@
+{
+  "duration": 120,
+  "sampleRate": 120,
+  "samples": 14401,
+  "collisionViolations": 0,
+  "cutTimes": [
+    48,
+    70,
+    84,
+    97,
+    110
+  ],
+  "distanceMeters": 169.37075207119972,
+  "movingSeconds": 88.56666666668322,
+  "meanMovingSpeed": 1.9123532413003546,
+  "maxSpeed": 2.2784039594283367,
+  "minHeight": 1.7700000003372356,
+  "maxHeight": 1.7899999981126797,
+  "maxAngularDegreesPerSecond": 46.278133567426636,
+  "minGazeDistance": 5.99999999999999,
+  "minimumWallOrFurnitureClearanceAfterPlayerRadius": 0.6841062088829228,
+  "themedRoomIndices": [
+    0,
+    1,
+    3,
+    2,
+    4,
+    5,
+    6
+  ],
+  "chambers": [
+    "fame-1",
+    "city-2",
+    "minimal-2",
+    "nature-1",
+    "color-3",
+    "culture-1",
+    "studio-1"
+  ],
+  "studioPlacement": {
+    "at": [
+      9.25,
+      2.18,
+      -11.629999999999999
+    ],
+    "view": [
+      9.25,
+      1.78,
+      -8.229999999999999
+    ]
+  },
+  "layoutSha256": "ef5bd8aa30a37b6a2753bb2de9708d38db38da198fb00a35fc0bbacaa446b0c3",
+  "tourSha256": "5be286d8a94c7d2f55321e0eaff4fbd43e68de16621d769c062e21b95b42b123"
+}

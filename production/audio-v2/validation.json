@@ -1,0 +1,100 @@
+{
+  "wav": {
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "pcm_s24le",
+          "sample_rate": "44100",
+          "channels": 2,
+          "bits_per_raw_sample": "24"
+        }
+      ],
+      "format": {
+        "duration": "120.000000",
+        "size": "31752302"
+      }
+    },
+    "decoded_seconds": 120.0,
+    "decoded_frames": 5292000,
+    "size_bytes": 31752302,
+    "peak_dbfs": -2.758,
+    "finite": true,
+    "stereo_channel_difference_rms": 0.07060980051755905,
+    "last_100ms_peak": 1.1920928955078125e-07,
+    "section_rms_dbfs": {
+      "arrival": -29.54,
+      "theme": -21.07,
+      "threshold_one": -30.62,
+      "development": -19.19,
+      "threshold_two": -31.2,
+      "rise": -16.7,
+      "threshold_three": -29.73,
+      "answer": -19.36,
+      "threshold_four": -30.37,
+      "reprise": -20.08,
+      "coda": -26.73
+    }
+  },
+  "mp3": {
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "44100",
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": "120.000000",
+        "size": "2881669"
+      }
+    },
+    "decoded_seconds": 120.0,
+    "decoded_frames": 5292000,
+    "size_bytes": 2881669,
+    "peak_dbfs": -2.939,
+    "finite": true,
+    "stereo_channel_difference_rms": 0.06849677115678787,
+    "last_100ms_peak": 1.365978476997043e-07
+  },
+  "m4a": {
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "aac",
+          "sample_rate": "44100",
+          "channels": 2
+        }
+      ],
+      "format": {
+        "duration": "120.000000",
+        "size": "2885535"
+      }
+    },
+    "decoded_seconds": 120.00072562358277,
+    "decoded_frames": 5292032,
+    "size_bytes": 2885535,
+    "peak_dbfs": -2.778,
+    "finite": true,
+    "stereo_channel_difference_rms": 0.07032274454832077,
+    "last_100ms_peak": 2.6620599058446714e-08
+  },
+  "final_loudness": {
+    "input_i": "-18.49",
+    "input_tp": "-2.75",
+    "input_lra": "13.20",
+    "input_thresh": "-28.94",
+    "output_i": "-16.88",
+    "output_tp": "-1.31",
+    "output_lra": "11.20",
+    "output_thresh": "-27.16",
+    "normalization_type": "dynamic",
+    "target_offset": "-1.62"
+  }
+}
