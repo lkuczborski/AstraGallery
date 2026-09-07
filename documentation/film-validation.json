@@ -1,38 +1,194 @@
 {
-    "programs": [
-
-    ],
-    "stream_groups": [
-
-    ],
+  "unexpectedUniformFrames": [],
+  "file": "/private/tmp/astra-film-v3/out/astra-gallery-rooms-of-light-v3.mp4",
+  "bytes": 21702302,
+  "sha256": "527dfdf6749a46d78c19a9c70630f701bedcf764c4ab7c8d9502ac3071d06acf",
+  "fullDecodePassed": true,
+  "faststart": true,
+  "atoms": [
+    {
+      "kind": "ftyp",
+      "offset": 0,
+      "size": 32
+    },
+    {
+      "kind": "moov",
+      "offset": 32,
+      "size": 84075
+    },
+    {
+      "kind": "free",
+      "offset": 84107,
+      "size": 8
+    },
+    {
+      "kind": "mdat",
+      "offset": 84115,
+      "size": 21618187
+    }
+  ],
+  "audioMeanDb": -21.0,
+  "audioPeakDb": -2.8,
+  "contactSheetFrames": [
+    48,
+    216,
+    384,
+    456,
+    720,
+    1056,
+    1176,
+    1464,
+    1728,
+    1920,
+    2040,
+    2196,
+    2376,
+    2640,
+    2736,
+    2844
+  ],
+  "metadata": {
     "streams": [
-        {
-            "codec_name": "h264",
-            "codec_type": "video",
-            "width": 1920,
-            "height": 1080,
-            "r_frame_rate": "24/1",
-            "duration": "120.000000",
-            "nb_frames": "2880",
-            "side_data_list": [
-                {
-
-                }
-            ]
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.640032",
+        "width": 1920,
+        "height": 1080,
+        "coded_width": 1920,
+        "coded_height": 1080,
+        "has_b_frames": 2,
+        "sample_aspect_ratio": "1:1",
+        "display_aspect_ratio": "16:9",
+        "pix_fmt": "yuvj420p",
+        "level": 50,
+        "color_range": "pc",
+        "color_space": "bt470bg",
+        "chroma_location": "center",
+        "field_order": "progressive",
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "24/1",
+        "avg_frame_rate": "24/1",
+        "time_base": "1/90000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 10800000,
+        "duration": "120.000000",
+        "bit_rate": "1282029",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "2880",
+        "extradata_size": 51,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
         },
-        {
-            "codec_name": "aac",
-            "codec_type": "audio",
-            "sample_rate": "48000",
-            "channels": 2,
-            "r_frame_rate": "0/0",
-            "duration": "120.000000",
-            "nb_frames": "5626"
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "encoder": "Lavc61.19.100 libx264"
+        },
+        "side_data_list": [
+          {
+            "side_data_type": "ICC Profile"
+          }
+        ]
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_long_name": "AAC (Advanced Audio Coding)",
+        "profile": "LC",
+        "codec_type": "audio",
+        "codec_tag_string": "mp4a",
+        "codec_tag": "0x6134706d",
+        "mime_codec_string": "mp4a.40.2",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 0,
+        "id": "0x2",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 5760000,
+        "duration": "120.000000",
+        "bit_rate": "159154",
+        "nb_frames": "5626",
+        "extradata_size": 5,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler"
         }
+      }
     ],
     "format": {
-        "duration": "120.000000",
-        "size": "21628190",
-        "bit_rate": "1441879"
+      "filename": "/private/tmp/astra-film-v3/out/astra-gallery-rooms-of-light-v3.mp4",
+      "nb_streams": 2,
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "start_time": "0.000000",
+      "duration": "120.000000",
+      "size": "21702302",
+      "bit_rate": "1446820",
+      "probe_score": 100,
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf62.12.102",
+        "comment": "Made with Remotion 4.0.522"
+      }
     }
+  }
 }

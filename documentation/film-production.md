@@ -1,15 +1,20 @@
-# Production handoff: Astra Gallery — Rooms of Light v2
+# Production handoff — freshly rendered fixed gallery
 
-Final media: `astra-gallery-rooms-of-light-v2.mp4`
+Final film: `out/astra-gallery-rooms-of-light-v3.mp4`
 
-- MIME type: `video/mp4`
-- H264 video, stereo AAC audio, MP4 faststart
-- Exactly 120.000 seconds, 1920 × 1080, 24 fps, 2,880 frames
-- 21,628,190 bytes (20.6 MiB), below 25 MiB
-- SHA-256: `fb0cbc287bb23cb4326b885ab12c825c4c24a1580634a6c8560360c596bde897`
+- 120.000 seconds; 1920×1080; 24 fps; 2,880 frames.
+- H264 video and stereo AAC, 48 kHz, 160 kbps audio.
+- MP4 faststart; 21,702,302 bytes (20.7 MiB), below 25 MiB.
+- SHA256: `527dfdf6749a46d78c19a9c70630f701bedcf764c4ab7c8d9502ac3071d06acf`.
 
-The source archive intentionally excludes `node_modules`, `public`, and `out`. Install pinned dependencies with `npm ci`. Supply the gallery's static `public` assets, including the original score at `public/media/astra-rooms-of-light-120s.wav`, then follow the render and final-mux commands in `README.md`.
+This is a fresh render from the current gallery source. It includes the disjoint floor footprints, transparent-glass shadow fix, occupied-room lighting priority, selection hysteresis and complete fade to darkness before moving a pooled light. The route, gallery materials, title sequence and original 120-second score are retained.
 
-The exact rendering source is under `src/gallery`; it includes the frozen batched GalleryWorld, layout/catalog, and authored 120-second tour. The only world adapter changes concern deterministic texture retention/promotion during instant film updates. The final output uses the original route; the optional architecture-inspection pose does not appear in the film.
+The complete film decodes without errors. Every frame was checked for unexpected uniform/empty scene output, excluding authored opening/closing/cut fades; none were found. The 16-frame contact sheet was inspected across all sections. Audio mean is −21.0 dB and peak −2.8 dB. Stream metadata is in `diagnostics/media-validation.json`.
 
-`diagnostics/` preserves baseline and final renderer metrics, the 120 Hz collision-free route validation, final media metadata, and source/media hashes. The original full rendering workspace remains at `/private/tmp/astra-film-v2`. No preview server is running.
+The ordered light simulation runs the actual copied GalleryWorld update code at 24 Hz. Independent repeated simulations are byte-identical; all 42 light reassignments between hard cuts occur after intensity reaches zero. The route has zero collision issues at 120 Hz. Source hashes still matched all six current Site files after rendering.
+
+Source project: `/private/tmp/astra-film-v3`. Source archive: `astra-film-v3-source.tar.gz`, excluding node_modules/public/out and including the exact source snapshot, render adapter, recorded timeline, package configuration, preparation/validation scripts and diagnostic reports. Public assets remain in the source project and their fingerprints are preserved in the handoff manifest.
+
+For the separate 30-second edit, reuse `<GalleryScene sourceFrame={...}/>` with the original 24 fps frame index. The component supplies the clean exact scene and matching recorded lighting history. No additional full-length clean render was needed.
+
+All source/output files are preserved. No preview server or rendering browser remains running. The Site checkout was not edited by this media task.

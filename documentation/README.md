@@ -30,7 +30,9 @@ Uploads use local browser object URLs and a canvas downscale to a maximum 2048px
 
 ## Film, music and identity
 
-The new 120-second film and interactive guided visit share the same camera route. The first 48 seconds continuously walk from the street into the Hall of Fame and courtyard. Five editorial cuts take the visitor to other wings, with independent gaze, artwork pauses and subtle walking movement. All camera samples are collision-free. The original score is a continuous two-minute arrangement with breathing space between visits and a resolved ending. See film.md, walkthrough.md and soundtrack.md.
+The refreshed 120-second film and interactive guided visit share the same camera route. This edition was rendered again after the lighting and floor-flicker fixes. The first 48 seconds continuously walk from the street into the Hall of Fame and courtyard. Five editorial cuts take the visitor to other wings, with independent gaze, artwork pauses and subtle walking movement. All camera samples are collision-free. The original score is a continuous two-minute arrangement with breathing space between visits and a resolved ending. See film.md, walkthrough.md and soundtrack.md.
+
+The separate 30-second landscape clip visits the facade, Hall of Fame, Beyond the Horizon, Chromatic Worlds and open studio, ending with the gallery URL and Jess's original-project credit. Both versions are available in The film panel with posters, captions and direct MP4 downloads. The short clip is 1920×1080 at 24 fps, H264/AAC, 11,691,233 bytes. See film-social.md and film-social-validation.json.
 
 The star-and-orbit Astra Gallery identity was generated with built-in imagegen. The selected transparent PNG is public/brand/astra-gallery-logo-v2.png; documentation/logo-v2-prompt.txt preserves the prompt. It appears on the facade and in the interface.
 
@@ -40,4 +42,4 @@ Production build, TypeScript and gallery-specific lint are checked. The unmodifi
 
 Browser UI testing was not requested. Film stills were rendered and visually inspected as media production; final film encoding and decoding are checked separately. Optional WebMCP explore_astra_room and open_astra_artwork registrations are feature-detected; their browser contract has not been runtime-verified.
 
-The current Remotion sources are preserved in production/film-source-v2.tar.gz. To reproduce, unpack into a separate directory and copy this project's public assets into its public directory. Audio sources are in production/audio-v2; Blender sources are in production/blender-v2. The previous film and audio sources are retained for provenance.
+The current Remotion sources are preserved in production/film-source-v3.tar.gz and production/film-source-social.tar.gz. To reproduce, unpack into separate directories and copy this project's public assets into each public directory; restore the lighting timeline and score as described in each archive. Audio sources are in production/audio-v2; Blender sources are in production/blender-v2. The previous film and audio sources are retained for provenance.

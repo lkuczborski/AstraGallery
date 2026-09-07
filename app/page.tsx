@@ -36,6 +36,7 @@ import {
   HoverCardContent,
 } from '@/components/ui/hover-card';
 import { Slider } from '@/components/ui/slider';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   rooms,
   artworks,
@@ -1025,30 +1026,78 @@ export default function Gallery() {
             <>
               <DialogTitle className="panel-title">Rooms of light.</DialogTitle>
               <DialogDescription className="panel-desc">
-                An evening walk from the street, through the exhibition, and
-                into the open studio. With time to stop and look.
+                Take the full evening walk, or share a 30-second glimpse of the
+                exhibition.
               </DialogDescription>
-              <video
-                className="film-video"
-                src="/media/astra-gallery-film.mp4"
-                controls
-                playsInline
-                preload="metadata"
-              >
-                <track
-                  kind="captions"
-                  src="/media/music-captions.vtt"
-                  srcLang="en"
-                  label="English"
-                />
-              </video>
-              <div className="film-caption">
-                <span>2 minutes · Original score · Astra Gallery</span>
-                <a href="/media/astra-gallery-film.mp4" download>
-                  Download film{' '}
-                  <Download size={14} style={{ display: 'inline' }} />
-                </a>
-              </div>
+              <Tabs defaultValue="full">
+                <TabsList className="film-tabs" aria-label="Film length">
+                  <TabsTrigger className="film-tab" value="full">
+                    Full film · 2 min
+                  </TabsTrigger>
+                  <TabsTrigger className="film-tab" value="short">
+                    Twitter clip · 30 sec
+                  </TabsTrigger>
+                </TabsList>
+                {[
+                  {
+                    id: 'full',
+                    file: 'astra-gallery-film',
+                    version: '?v=3',
+                    captions: 'music-captions',
+                    label: '2 minutes · 1080p · Original score',
+                    download: 'Download full film',
+                  },
+                  {
+                    id: 'short',
+                    file: 'astra-gallery-twitter-30s',
+                    version: '',
+                    captions: 'music-teaser-captions',
+                    label: '30 seconds · Landscape · 1080p',
+                    download: 'Download Twitter clip',
+                  },
+                ].map((film) => (
+                  <TabsContent
+                    className="film-tab-content"
+                    key={film.id}
+                    value={film.id}
+                  >
+                    <video
+                      className="film-video"
+                      src={`/media/${film.file}.mp4${film.version}`}
+                      poster={
+                        film.id === 'full'
+                          ? '/media/astra-gallery-film-poster.jpg'
+                          : '/media/astra-gallery-twitter-poster.jpg'
+                      }
+                      aria-label={
+                        film.id === 'full'
+                          ? 'Full gallery film'
+                          : 'Thirty-second gallery clip'
+                      }
+                      controls
+                      playsInline
+                      preload="metadata"
+                    >
+                      <track
+                        kind="captions"
+                        src={`/media/${film.captions}.vtt`}
+                        srcLang="en"
+                        label="English"
+                      />
+                    </video>
+                    <div className="film-caption">
+                      <span>{film.label}</span>
+                      <a
+                        href={`/media/${film.file}.mp4${film.version}`}
+                        download={`${film.file}.mp4`}
+                      >
+                        {film.download}{' '}
+                        <Download size={14} style={{ display: 'inline' }} />
+                      </a>
+                    </div>
+                  </TabsContent>
+                ))}
+              </Tabs>
             </>
           )}
         </DialogContent>
