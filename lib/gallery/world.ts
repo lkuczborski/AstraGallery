@@ -5,6 +5,7 @@ import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 import {
   chambers,
+  chamberAt,
   walls,
   portals,
   courtyard,
@@ -171,7 +172,8 @@ export class GalleryWorld {
       mat,
     );
     mesh.position.set(x, y, z);
-    mesh.castShadow = true;
+    // Shadow maps treat transparent glass as solid, blocking nearby spotlights.
+    mesh.castShadow = !mat.transparent;
     mesh.receiveShadow = true;
     return mesh;
   }
@@ -1281,15 +1283,25 @@ export class GalleryWorld {
         a.group.position.distanceToSquared(p) -
         b.group.position.distanceToSquared(p),
     );
-    const near = sorted.slice(0, 18);
+    // Every work in the occupied room keeps its spotlight, even near a shared
+    // wall where unseen works in the next room are closer to the camera.
+    const room = chamberAt(p.x, p.z);
+    const inRoom = (m: Mount) => m.placement.chamber === room;
+    const near = [
+      ...sorted.filter(inRoom),
+      ...sorted.filter((m) => !inRoom(m)),
+    ].slice(0, this.lights.length);
     const wanted = new Set(near);
     const assigned = new Set(this.lights.map((l) => l.mount).filter(Boolean));
     for (let i = 0; i < this.lights.length; i++) {
       const item = this.lights[i];
       if (instant) item.mount = near[i] || null;
       else if (item.mount && !wanted.has(item.mount)) {
+        const missingRoomLight = near.some(
+          (m) => inRoom(m) && !assigned.has(m),
+        );
         item.light.intensity *= Math.exp(-dt * 8);
-        if (item.light.intensity > 0.15) continue;
+        if (!missingRoomLight && item.light.intensity > 0.15) continue;
         assigned.delete(item.mount);
         item.mount = null;
       }
@@ -1311,17 +1323,20 @@ export class GalleryWorld {
       );
       item.light.target.position.set(point.x, point.y, point.z);
       const distance = camera.position.distanceTo(m.group.position);
-      const strength = Math.max(0, Math.min(1, (39 - distance) / 14));
+      const strength = inRoom(m)
+        ? 1
+        : Math.max(0, Math.min(1, (39 - distance) / 14));
       const target =
         (point.chamber.theme.id === 'studio' ? 45 * this.lighting : 62) *
         strength;
-      item.light.intensity = instant
-        ? target
-        : THREE.MathUtils.lerp(
-            item.light.intensity,
-            target,
-            1 - Math.exp(-dt * 5),
-          );
+      item.light.intensity =
+        instant || inRoom(m)
+          ? target
+          : THREE.MathUtils.lerp(
+              item.light.intensity,
+              target,
+              1 - Math.exp(-dt * 5),
+            );
     }
     for (const m of this.mounts) {
       const distance = p.distanceTo(m.group.position);
