@@ -8,13 +8,13 @@ import {
   chamberAt,
   walls,
   portals,
-  courtyard,
   placements,
   placeWork,
   type Chamber,
   type Placement,
 } from './layout';
 import type { Artwork } from './data';
+import { floorSurfaces } from './floors';
 export type Mount = {
   placement: Placement;
   group: THREE.Group;
@@ -60,6 +60,7 @@ export class GalleryWorld {
   lights: PoolLight[] = [];
   private detailActive = 0;
   private frame = 0;
+  private lightSelection = new Set<Mount>();
   private promises: Promise<unknown>[] = [];
   private glow: THREE.Texture;
   private sharedTextures = new Map<string, Promise<THREE.Texture>>();
@@ -189,6 +190,39 @@ export class GalleryWorld {
     m.position.set(x, y, z);
     return m;
   }
+  private addFloor(
+    parent: THREE.Object3D,
+    id: string,
+    thickness: number,
+    mat: THREE.Material,
+  ) {
+    const { source, tiles } = floorSurfaces.find(
+      (floor) => floor.source.id === id,
+    )!;
+    for (const tile of tiles) {
+      const mesh = this.box(
+        tile.width,
+        thickness,
+        tile.depth,
+        tile.x,
+        -thickness / 2,
+        tile.z,
+        mat,
+      );
+      // Cropping a floor must not restart or stretch its original texture.
+      const { position, normal, uv } = mesh.geometry.attributes;
+      for (let i = 0; i < position.count; i++)
+        if (normal.getY(i) > 0.5) {
+          uv.setXY(
+            i,
+            (position.getX(i) + tile.x - source.x) / source.width + 0.5,
+            0.5 - (position.getZ(i) + tile.z - source.z) / source.depth,
+          );
+        }
+      mesh.userData.floor = id;
+      parent.add(mesh);
+    }
+  }
   texture(path: string) {
     let p = this.sharedTextures.get(path);
     if (!p) {
@@ -296,8 +330,7 @@ export class GalleryWorld {
       floorPrefix === 'walnut_planks' ? 0.78 : 0.48,
     );
     floor.normalScale.set(0.17, 0.17);
-    const ground = this.box(c.width, 0.16, c.depth, c.x, -0.08, c.z, floor);
-    group.add(ground);
+    this.addFloor(group, c.id, 0.16, floor);
     const paint = {
       salon: '#626957',
       concrete: '#83918d',
@@ -717,17 +750,7 @@ export class GalleryWorld {
       const length = Math.hypot(p.ax - p.bx, p.az - p.bz);
       const x = (p.ax + p.bx) / 2,
         z = (p.az + p.bz) / 2;
-      this.scene.add(
-        this.box(
-          p.axis === 'x' ? length + 0.3 : p.width,
-          0.13,
-          p.axis === 'x' ? p.width : length + 0.3,
-          x,
-          -0.065,
-          z,
-          stone,
-        ),
-      );
+      this.addFloor(this.scene, p.id, 0.13, stone);
       this.scene.add(
         this.box(
           p.axis === 'x' ? length + 0.3 : p.width,
@@ -766,11 +789,11 @@ export class GalleryWorld {
         ),
       );
     }
-    this.scene.add(this.box(4.5, 0.15, 40, 0, -0.075, 7, stone));
+    this.addFloor(this.scene, 'foyer', 0.15, stone);
     this.scene.add(
       this.box(
         4.5,
-        0.1,
+        0.04,
         24,
         0,
         4.6,
@@ -840,7 +863,7 @@ export class GalleryWorld {
     this.scene.add(
       this.box(
         14,
-        0.08,
+        0.04,
         4.7,
         0,
         4.2,
@@ -926,17 +949,7 @@ export class GalleryWorld {
   }
   private buildCourtyard() {
     const stone = this.material('dark_terrazzo', '#b0a899', 14, 13, 0.52);
-    this.scene.add(
-      this.box(
-        courtyard.width,
-        0.14,
-        courtyard.depth,
-        courtyard.x,
-        -0.07,
-        courtyard.z,
-        stone,
-      ),
-    );
+    this.addFloor(this.scene, 'courtyard', 0.14, stone);
     const pool = new THREE.Mesh(
       new THREE.PlaneGeometry(24, 26),
       new THREE.MeshPhysicalMaterial({
@@ -1287,21 +1300,41 @@ export class GalleryWorld {
     // wall where unseen works in the next room are closer to the camera.
     const room = chamberAt(p.x, p.z);
     const inRoom = (m: Mount) => m.placement.chamber === room;
+    // Keep spare lights on their previous works until a replacement is clearly
+    // closer, so tiny movements cannot repeatedly reverse a fade at the cutoff.
+    const extras = sorted
+      .filter((m) => !inRoom(m))
+      .map((mount) => ({
+        mount,
+        score:
+          mount.group.position.distanceTo(p) -
+          (!instant && this.lightSelection.has(mount) ? 1.5 : 0),
+      }))
+      .sort(
+        (a, b) =>
+          a.score - b.score ||
+          a.mount.placement.work.id.localeCompare(b.mount.placement.work.id),
+      );
     const near = [
       ...sorted.filter(inRoom),
-      ...sorted.filter((m) => !inRoom(m)),
+      ...extras.map(({ mount }) => mount),
     ].slice(0, this.lights.length);
     const wanted = new Set(near);
+    this.lightSelection = wanted;
     const assigned = new Set(this.lights.map((l) => l.mount).filter(Boolean));
     for (let i = 0; i < this.lights.length; i++) {
       const item = this.lights[i];
       if (instant) item.mount = near[i] || null;
       else if (item.mount && !wanted.has(item.mount)) {
-        const missingRoomLight = near.some(
-          (m) => inRoom(m) && !assigned.has(m),
-        );
-        item.light.intensity *= Math.exp(-dt * 8);
-        if (!missingRoomLight && item.light.intensity > 0.15) continue;
+        if (item.light.intensity > 0) {
+          item.light.intensity = Math.max(
+            0,
+            item.light.intensity -
+              (dt * Math.max(62, 45 * this.lighting)) / 0.18,
+          );
+          // Render a dark frame before moving a light or its shadow map.
+          continue;
+        }
         assigned.delete(item.mount);
         item.mount = null;
       }
@@ -1329,14 +1362,11 @@ export class GalleryWorld {
       const target =
         (point.chamber.theme.id === 'studio' ? 45 * this.lighting : 62) *
         strength;
-      item.light.intensity =
-        instant || inRoom(m)
-          ? target
-          : THREE.MathUtils.lerp(
-              item.light.intensity,
-              target,
-              1 - Math.exp(-dt * 5),
-            );
+      const step = (dt * Math.max(62, 45 * this.lighting)) / 0.22;
+      item.light.intensity = instant
+        ? target
+        : item.light.intensity +
+          THREE.MathUtils.clamp(target - item.light.intensity, -step, step);
     }
     for (const m of this.mounts) {
       const distance = p.distanceTo(m.group.position);

@@ -127,6 +127,7 @@ export class GalleryEngine {
     this.yaw = 0.1;
     this.pitch = 0.01;
     this.recoverWalkPosition();
+    this.world.update(this.camera, 0, true);
     this.updateLocation();
   }
   enterGallery() {
@@ -202,6 +203,7 @@ export class GalleryEngine {
       this.yaw = yaw;
       this.pitch = pitch;
       this.transition = null;
+      this.world.update(this.camera, 0, true);
     }
     this.setRoom(p.chamber.theme);
     this.updateLocation();
