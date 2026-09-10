@@ -1,0 +1,215 @@
+{
+  "viewport": [
+    1280,
+    720
+  ],
+  "dpr": 1,
+  "preserveDrawingBuffer": false,
+  "vendor": "Google Inc. (Apple)",
+  "glRenderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M5 Pro, Unspecified Version)",
+  "gpuTimerAvailable": true,
+  "software": false,
+  "poses": [
+    {
+      "name": "street",
+      "position": [
+        4,
+        1.78,
+        31
+      ],
+      "modes": [
+        {
+          "mode": "cached",
+          "cpuSubmissionMs": {
+            "mean": 6.1655555561184885,
+            "median": 6.199999988079071,
+            "p95": 6.5,
+            "min": 5.699999988079071,
+            "max": 6.899999991059303,
+            "n": 90
+          },
+          "rafIntervalMs": {
+            "mean": 16.665555555555557,
+            "median": 16.699999999999818,
+            "p95": 16.700000000000273,
+            "min": 16.5,
+            "max": 16.800000000000182,
+            "n": 90
+          },
+          "gpuMs": {
+            "mean": 15.119285577777777,
+            "median": 14.996833,
+            "p95": 20.071125,
+            "min": 10.4825,
+            "max": 23.548166,
+            "n": 90
+          },
+          "drawCalls": {
+            "mean": 1489,
+            "median": 1489,
+            "p95": 1489,
+            "min": 1489,
+            "max": 1489,
+            "n": 90
+          },
+          "triangles": {
+            "mean": 1335304,
+            "median": 1335304,
+            "p95": 1335304,
+            "min": 1335304,
+            "max": 1335304,
+            "n": 90
+          },
+          "shadowDraws": {
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0,
+            "n": 90
+          }
+        }
+      ]
+    },
+    {
+      "name": "hall-of-fame",
+      "position": [
+        -14,
+        1.78,
+        1
+      ],
+      "modes": [
+        {
+          "mode": "cached",
+          "cpuSubmissionMs": {
+            "mean": 4.747777778241369,
+            "median": 4.699999988079071,
+            "p95": 5.5,
+            "min": 4.200000002980232,
+            "max": 5.699999988079071,
+            "n": 90
+          },
+          "rafIntervalMs": {
+            "mean": 16.66666666666666,
+            "median": 16.699999999999818,
+            "p95": 16.700000000000728,
+            "min": 16.599999999999454,
+            "max": 16.800000000000182,
+            "n": 90
+          },
+          "gpuMs": {
+            "mean": 8.612698155555561,
+            "median": 8.407999,
+            "p95": 9.7085,
+            "min": 7.833958,
+            "max": 9.818041,
+            "n": 90
+          },
+          "drawCalls": {
+            "mean": 1087,
+            "median": 1087,
+            "p95": 1087,
+            "min": 1087,
+            "max": 1087,
+            "n": 90
+          },
+          "triangles": {
+            "mean": 996756,
+            "median": 996756,
+            "p95": 996756,
+            "min": 996756,
+            "max": 996756,
+            "n": 90
+          },
+          "shadowDraws": {
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0,
+            "n": 90
+          }
+        }
+      ]
+    },
+    {
+      "name": "culture-13",
+      "position": [
+        70,
+        1.78,
+        -103
+      ],
+      "modes": [
+        {
+          "mode": "cached",
+          "cpuSubmissionMs": {
+            "mean": 2.4011111123694313,
+            "median": 2.5999999940395355,
+            "p95": 3.199999988079071,
+            "min": 1.4000000059604645,
+            "max": 3.300000011920929,
+            "n": 90
+          },
+          "rafIntervalMs": {
+            "mean": 16.665555555555553,
+            "median": 16.699999999999818,
+            "p95": 16.699999999999818,
+            "min": 16.5,
+            "max": 16.800000000000182,
+            "n": 90
+          },
+          "gpuMs": {
+            "mean": 9.438361100000003,
+            "median": 9.320875,
+            "p95": 10.884749,
+            "min": 8.154958,
+            "max": 11.832916,
+            "n": 90
+          },
+          "drawCalls": {
+            "mean": 38,
+            "median": 38,
+            "p95": 38,
+            "min": 38,
+            "max": 38,
+            "n": 90
+          },
+          "triangles": {
+            "mean": 20288,
+            "median": 20288,
+            "p95": 20288,
+            "min": 20288,
+            "max": 20288,
+            "n": 90
+          },
+          "shadowDraws": {
+            "mean": 0,
+            "median": 0,
+            "p95": 0,
+            "min": 0,
+            "max": 0,
+            "n": 90
+          }
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "mounts": 359,
+  "meshes": 1909,
+  "captureAfterIdle": {
+    "width": 1280,
+    "height": 720,
+    "dataUrlLength": 1580490,
+    "nonBlackPixels": 921224,
+    "opaquePixels": 921600,
+    "channelMin": 0,
+    "channelMax": 255,
+    "captureRenderCount": 1
+  },
+  "pageErrors": [],
+  "missingAssets": [
+    "/favicon.ico"
+  ],
+  "browserVersion": "153.0.8010.36"
+}

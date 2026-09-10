@@ -1,0 +1,17 @@
+{
+  "scope": "Local built Cloudflare Worker runtime",
+  "results": [
+    {
+      "file": "e1c33363-024e-4da3-b3c6-f7c9228a97bb.glb",
+      "status": 200,
+      "contentType": "model/gltf-binary",
+      "cacheControl": "public, max-age=86400"
+    },
+    {
+      "file": "e1c33363-024e-4da3-b3c6-f7c9228a97bb.usdz",
+      "status": 200,
+      "contentType": "model/vnd.usdz+zip",
+      "cacheControl": "public, max-age=86400"
+    }
+  ]
+}

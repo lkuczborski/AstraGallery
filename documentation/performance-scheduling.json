@@ -1,0 +1,17 @@
+{
+  "pass": true,
+  "idleDrawsOver3Seconds": 0,
+  "dialogDraws": 0,
+  "hiddenDraws": 0,
+  "activeDrawsOver6SecondsAt120Hz": 360,
+  "adaptiveRatios": [
+    1.5,
+    1.35,
+    1.2000000000000002
+  ],
+  "scope": "Deterministic production-engine scheduling; GPU/device FPS not measured",
+  "sourceHashes": {
+    "lib/gallery/engine.ts": "168fb03b73e4b2891400dd28198cc153ec222d607abb01f4b81785a9f96533b7",
+    "lib/gallery/world.ts": "356542c577b6dc6e75500acd3c8ca3b66352ac32a1af201fd6045ffd6c4cccaa"
+  }
+}

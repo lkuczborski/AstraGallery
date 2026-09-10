@@ -38,7 +38,19 @@ export class GalleryEngine {
   renderer: THREE.WebGLRenderer;
   keys = new Set<string>();
   activeRoom = rooms[0];
-  blocked = false;
+  private paused = false;
+  get blocked() {
+    return this.paused;
+  }
+  set blocked(value: boolean) {
+    if (this.paused === value) return;
+    this.paused = value;
+    if (value) {
+      this.keys.clear();
+      this.drag = false;
+      this.suspend();
+    } else this.invalidate();
+  }
   disposed = false;
   animation = 0;
   yaw = STREET_START.yaw;
@@ -50,6 +62,12 @@ export class GalleryEngine {
   raycaster = new THREE.Raycaster();
   tourClock: (() => number | null) | null = null;
   lastTick = performance.now();
+  private nextFrameAt = 0;
+  private inFrame = false;
+  private resizePending = false;
+  private frameSamples: number[] = [];
+  private stableFrames = 0;
+  private pixelRatio = Math.min(devicePixelRatio, 1.5);
   tour = false;
   tourTime = 0;
   tourDuration = TOUR_DURATION;
@@ -65,7 +83,7 @@ export class GalleryEngine {
   transition: {
     from: THREE.Vector3;
     to: THREE.Vector3;
-    start: number;
+    elapsed: number;
     fromYaw: number;
     toYaw: number;
     fromPitch: number;
@@ -86,9 +104,9 @@ export class GalleryEngine {
       antialias: true,
       alpha: false,
       powerPreference: 'high-performance',
-      preserveDrawingBuffer: true,
+      preserveDrawingBuffer: false,
     });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    this.renderer.setPixelRatio(this.pixelRatio);
     this.renderer.setSize(host.clientWidth, host.clientHeight);
     this.renderer.outputColorSpace = THREE.SRGBColorSpace;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -96,13 +114,16 @@ export class GalleryEngine {
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
     host.appendChild(this.renderer.domElement);
-    this.world = new GalleryWorld(this.renderer, callbacks.onProgress);
+    this.world = new GalleryWorld(
+      this.renderer,
+      callbacks.onProgress,
+      this.invalidate,
+    );
     this.scene = this.world.scene;
     this.resizeObserver = new ResizeObserver(() => {
       if (this.disposed) return;
-      this.camera.aspect = host.clientWidth / Math.max(1, host.clientHeight);
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(host.clientWidth, host.clientHeight);
+      this.resizePending = true;
+      this.invalidate();
     });
     this.resizeObserver.observe(host);
     this.bindEvents();
@@ -110,12 +131,76 @@ export class GalleryEngine {
       .then(() => {
         if (this.disposed) return;
         this.world.update(this.camera, 1, true);
-        this.renderer.render(this.scene, this.camera);
+        this.invalidate();
         callbacks.onReady();
       })
       .catch(() => callbacks.onError());
     this.updateLocation();
-    this.tick();
+    this.invalidate();
+  }
+  // Only run while something changes. A new input or completed asset wakes us.
+  invalidate = () => {
+    if (
+      this.disposed ||
+      this.blocked ||
+      document.hidden ||
+      this.animation ||
+      this.inFrame
+    )
+      return;
+    this.lastTick = performance.now();
+    this.nextFrameAt = 0;
+    this.frameSamples.length = 0;
+    this.animation = requestAnimationFrame(this.tick);
+  };
+  private suspend() {
+    cancelAnimationFrame(this.animation);
+    this.animation = 0;
+    this.frameSamples.length = 0;
+    this.stableFrames = 0;
+  }
+  visibilityChanged = () => {
+    this.keys.clear();
+    this.drag = false;
+    if (document.hidden) this.suspend();
+    else this.invalidate();
+  };
+  setMovementKey(key: string, pressed: boolean) {
+    if (pressed && !this.blocked) this.keys.add(key);
+    else this.keys.delete(key);
+    this.invalidate();
+  }
+  private adaptResolution(frameMs: number) {
+    this.frameSamples.push(frameMs);
+    if (this.frameSamples.length < 90) return;
+    const mean = this.frameSamples.reduce((sum, ms) => sum + ms, 0) / 90;
+    this.frameSamples.length = 0;
+    const maximum = Math.min(devicePixelRatio, 1.5);
+    const minimum = Math.min(maximum, 0.85);
+    let next = this.pixelRatio;
+    if (mean > 20) {
+      next = Math.max(minimum, this.pixelRatio - 0.15);
+      this.stableFrames = 0;
+    } else if (mean < 17.8) {
+      this.stableFrames += 90;
+      if (this.stableFrames >= 540) {
+        next = Math.min(maximum, this.pixelRatio + 0.1);
+        this.stableFrames = 0;
+      }
+    } else this.stableFrames = 0;
+    if (Math.abs(next - this.pixelRatio) > 0.01) {
+      this.pixelRatio = next;
+      this.renderer.setPixelRatio(next);
+    }
+  }
+  private applyPendingSize() {
+    if (!this.resizePending) return;
+    const width = Math.max(1, this.host.clientWidth);
+    const height = Math.max(1, this.host.clientHeight);
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(width, height);
+    this.resizePending = false;
   }
   navigate(id: string) {
     const c = chambers.find((c) => c.id === id) || firstChamber(id);
@@ -129,6 +214,7 @@ export class GalleryEngine {
     this.recoverWalkPosition();
     this.world.update(this.camera, 0, true);
     this.updateLocation();
+    this.invalidate();
   }
   enterGallery() {
     this.stopTour();
@@ -143,6 +229,7 @@ export class GalleryEngine {
       [0, 0],
       [-8, 0],
     ];
+    this.invalidate();
   }
   setRoom(room: Room) {
     if (room.id !== this.activeRoom.id) {
@@ -192,7 +279,7 @@ export class GalleryEngine {
       this.transition = {
         from: this.camera.position.clone(),
         to,
-        start: performance.now(),
+        elapsed: 0,
         fromYaw: this.yaw,
         toYaw: this.yaw + delta,
         fromPitch: this.pitch,
@@ -207,6 +294,7 @@ export class GalleryEngine {
     }
     this.setRoom(p.chamber.theme);
     this.updateLocation();
+    this.invalidate();
   }
   canWalk(x: number, z: number) {
     return canWalkAt(x, z);
@@ -229,6 +317,7 @@ export class GalleryEngine {
     window.addEventListener('keydown', this.keyDown);
     window.addEventListener('keyup', this.keyUp);
     window.addEventListener('blur', this.blur);
+    document.addEventListener('visibilitychange', this.visibilityChanged);
     c.addEventListener('webglcontextlost', this.contextLost);
   }
   contextLost = (e: Event) => {
@@ -266,6 +355,7 @@ export class GalleryEngine {
       e.preventDefault();
       this.interruptMotion();
       this.keys.add(k);
+      this.invalidate();
     }
     if (k === 'escape') this.keys.clear();
   };
@@ -306,6 +396,7 @@ export class GalleryEngine {
         );
         this.down = { x: e.clientX, y: e.clientY };
         this.callbacks.onHover(null);
+        this.invalidate();
       }
     } else if (!this.blocked) this.hover(e.clientX, e.clientY);
   };
@@ -348,12 +439,19 @@ export class GalleryEngine {
       );
     }
   }
-  tick = () => {
-    if (this.disposed) return;
-    this.animation = requestAnimationFrame(this.tick);
-    const now = performance.now(),
-      dt = Math.min((now - this.lastTick) / 1000, 0.05);
+  tick = (now = performance.now()) => {
+    this.animation = 0;
+    if (this.disposed || this.blocked || document.hidden) return;
+    // Preserve a 60 Hz cadence on 90/120/144 Hz displays without speeding up time.
+    if (now + 0.5 < this.nextFrameAt) {
+      this.animation = requestAnimationFrame(this.tick);
+      return;
+    }
+    const frameMs = now - this.lastTick;
+    const dt = Math.min(frameMs / 1000, 0.05);
     this.lastTick = now;
+    this.nextFrameAt = Math.max((this.nextFrameAt || now) + 1000 / 60, now + 1);
+    this.inFrame = true;
     if (!this.blocked) {
       if (this.tour) {
         const mediaTime = this.tourClock?.();
@@ -383,8 +481,9 @@ export class GalleryEngine {
           this.pitch = THREE.MathUtils.lerp(this.pitch, 0.015, dt * 2);
         }
       } else if (this.transition) {
-        const tr = this.transition,
-          f = Math.min(1, (now - tr.start) / 1150),
+        const tr = this.transition;
+        tr.elapsed += dt * 1000;
+        const f = Math.min(1, tr.elapsed / 1150),
           s = f * f * (3 - 2 * f);
         this.camera.position.lerpVectors(tr.from, tr.to, s);
         this.yaw = THREE.MathUtils.lerp(tr.fromYaw, tr.toYaw, s);
@@ -412,9 +511,20 @@ export class GalleryEngine {
       }
     }
     if (!this.tour) this.camera.rotation.set(this.pitch, this.yaw, 0, 'YXZ');
-    this.world.update(this.camera, dt);
+    const animating = this.world.update(this.camera, dt);
     this.updateLocation();
+    const moving =
+      this.tour ||
+      this.entry.length > 0 ||
+      !!this.transition ||
+      this.keys.size > 0 ||
+      this.drag;
+    this.applyPendingSize();
+    if (moving) this.adaptResolution(frameMs);
+    // Resizing the drawing buffer clears it, so adapt before drawing this frame.
     this.renderer.render(this.scene, this.camera);
+    this.inFrame = false;
+    if (moving || animating) this.animation = requestAnimationFrame(this.tick);
   };
   setCustomImage(url: string, width: number, height: number) {
     const p = this.world.setCustomImage(url, width, height);
@@ -422,6 +532,7 @@ export class GalleryEngine {
   }
   setLighting(value: number) {
     this.world.lighting = value;
+    this.invalidate();
   }
   startTour() {
     this.keys.clear();
@@ -430,6 +541,7 @@ export class GalleryEngine {
     this.tourTime = 0;
     this.tour = true;
     this.setTourTime(0);
+    this.invalidate();
   }
   stopTour() {
     if (this.tour) {
@@ -439,6 +551,7 @@ export class GalleryEngine {
     }
     this.camera.position.y = EYE_HEIGHT;
     this.recoverWalkPosition();
+    this.invalidate();
   }
   isVisible(o: THREE.Object3D) {
     for (let p: THREE.Object3D | null = o; p; p = p.parent)
@@ -487,6 +600,7 @@ export class GalleryEngine {
     this.updateLocation();
   }
   capture() {
+    this.applyPendingSize();
     this.renderer.render(this.scene, this.camera);
     return this.renderer.domElement.toDataURL('image/png');
   }
@@ -497,6 +611,7 @@ export class GalleryEngine {
     window.removeEventListener('keydown', this.keyDown);
     window.removeEventListener('keyup', this.keyUp);
     window.removeEventListener('blur', this.blur);
+    document.removeEventListener('visibilitychange', this.visibilityChanged);
     this.world.dispose();
     this.renderer.dispose();
     this.renderer.domElement.remove();

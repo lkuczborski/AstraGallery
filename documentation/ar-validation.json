@@ -1,0 +1,30 @@
+{
+  "works": 358,
+  "assets": 716,
+  "bytes": 87910471,
+  "checks": [
+    "file counts",
+    "SHA-256 hashes",
+    "GLB v2 structure",
+    "embedded JPEG",
+    "6 meshes / 3 materials",
+    "USDZ ZIP CRCs",
+    "uncompressed ZIP",
+    "64-byte file alignment",
+    "deterministic ZIP timestamps",
+    "internal USDZ references",
+    "meter units",
+    "vertical plane anchoring"
+  ],
+  "physicalDeviceVerified": false,
+  "sampleReproduction": {
+    "id": "e1c33363-024e-4da3-b3c6-f7c9228a97bb",
+    "glbByteIdentical": true,
+    "usdzByteIdentical": true
+  },
+  "glbVisualSamples": [
+    "e1c33363-024e-4da3-b3c6-f7c9228a97bb",
+    "8bbdacc2-d7ab-40e5-b6c4-0a174777dd4c",
+    "ec86a352-8d80-49db-a30b-58cc567881ca"
+  ]
+}

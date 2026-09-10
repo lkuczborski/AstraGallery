@@ -1,6 +1,13 @@
 'use client';
 /* oxlint-disable next/no-img-element -- Exhibition images are locally pre-sized; the full-image overlay deliberately preserves source pixels and an onError fallback. */
-import { useEffect, useRef, useState, useCallback } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  lazy,
+  Suspense,
+} from 'react';
 import {
   ArrowUpRight,
   Compass,
@@ -23,6 +30,7 @@ import {
   ArrowRight,
   Expand,
   Film,
+  ScanLine,
 } from 'lucide-react';
 import {
   Dialog,
@@ -47,6 +55,7 @@ import {
 import { chambers } from '@/lib/gallery/layout';
 import { TOUR_DURATION } from '@/lib/gallery/tour';
 import type { GalleryEngine, Hit, GalleryLocation } from '@/lib/gallery/engine';
+const ArtworkAR = lazy(() => import('@/components/artwork-ar'));
 function Star() {
   return (
     <img
@@ -141,6 +150,7 @@ export default function Gallery() {
       'rooms' | 'collection' | 'help' | 'film' | null
     >(null),
     [selected, setSelected] = useState<Artwork | null>(null),
+    [arOpen, setArOpen] = useState(false),
     [hover, setHover] = useState<Hit>(null),
     [sound, setSound] = useState(false),
     [tour, setTour] = useState(false),
@@ -165,6 +175,7 @@ export default function Gallery() {
     return () => clearTimeout(t);
   }, [toast]);
   const select = useCallback((work: Artwork) => {
+    setArOpen(false);
     setSelected(work);
     setHover(null);
     if (work.id !== 'your-billboard') {
@@ -174,6 +185,7 @@ export default function Gallery() {
     }
   }, []);
   const closeArtwork = () => {
+    setArOpen(false);
     setSelected(null);
     const u = new URL(location.href);
     u.searchParams.delete('art');
@@ -717,11 +729,13 @@ export default function Gallery() {
                 setSound(false);
               }
               setTour(false);
-              engine.current?.keys.add(key);
+              engine.current?.setMovementKey(key, true);
             }}
-            onPointerUp={() => engine.current?.keys.delete(key)}
-            onPointerCancel={() => engine.current?.keys.delete(key)}
-            onLostPointerCapture={() => engine.current?.keys.delete(key)}
+            onPointerUp={() => engine.current?.setMovementKey(key, false)}
+            onPointerCancel={() => engine.current?.setMovementKey(key, false)}
+            onLostPointerCapture={() =>
+              engine.current?.setMovementKey(key, false)
+            }
           >
             <Icon />
           </button>
@@ -1111,22 +1125,32 @@ export default function Gallery() {
         <DialogContent className="art-dialog">
           {selected && (
             <>
-              <div className="art-image-wrap">
-                <img
-                  key={selected.id}
-                  src={selected.imageUrl || selected.image}
-                  alt={
-                    selected.title ||
-                    `Codex billboard by ${selected.handle || 'an anonymous creator'}`
-                  }
-                  onError={(e) => {
-                    if (
-                      e.currentTarget.src !==
-                      new URL(selected.image, location.href).href
-                    )
-                      e.currentTarget.src = selected.image;
-                  }}
-                />
+              <div
+                className={`art-image-wrap${arOpen ? ' ar-image-wrap' : ''}`}
+              >
+                {arOpen ? (
+                  <Suspense
+                    fallback={<p role="status">Opening the 3D preview…</p>}
+                  >
+                    <ArtworkAR key={selected.id} work={selected} />
+                  </Suspense>
+                ) : (
+                  <img
+                    key={selected.id}
+                    src={selected.imageUrl || selected.image}
+                    alt={
+                      selected.title ||
+                      `Codex billboard by ${selected.handle || 'an anonymous creator'}`
+                    }
+                    onError={(e) => {
+                      if (
+                        e.currentTarget.src !==
+                        new URL(selected.image, location.href).href
+                      )
+                        e.currentTarget.src = selected.image;
+                    }}
+                  />
+                )}
               </div>
               <div className="art-meta">
                 <div>
@@ -1161,6 +1185,14 @@ export default function Gallery() {
                 <div className="art-actions">
                   {selected.id !== 'your-billboard' && (
                     <>
+                      <button
+                        className="glass-button ar-button"
+                        onClick={() => setArOpen((open) => !open)}
+                        aria-pressed={arOpen}
+                      >
+                        <ScanLine />
+                        {arOpen ? 'Back to image' : 'View in your room'}
+                      </button>
                       <button className="glass-button" onClick={focusSelected}>
                         <Compass />
                         View on the wall

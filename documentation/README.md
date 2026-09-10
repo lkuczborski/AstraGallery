@@ -24,9 +24,21 @@ Keyboard: WASD movement; arrows forward/back/turn; Shift faster; mouse drag or t
 
 All 358 low-resolution artwork previews and architecture assets finish loading before the entrance opens. Nearby high-resolution textures fade in over the preview. Distant detail maps can be released while their previews remain. Architecture stays present and uses ordinary frustum culling; rooms are never toggled into view by distance. Static opaque primitives are merged by material within each room, and the spotlight pool fades reassignment during free walking. Three nearby spotlights cast shadows. Performance remains dependent on the visitor's GPU and display resolution; the interactive renderer caps device pixel ratio at 1.5.
 
+## Performance
+
+The September 10 performance pass renders on demand, suspends while dialogs or hidden tabs cover the gallery, caps active presentation at 60 Hz and adapts pixel ratio between 0.85 and the device's 1.5 maximum. Spotlight shadow maps update only after light reassignment or geometry changes. Static imported meshes and matching artwork frames batch per room; mutable Studio geometry and interactive surfaces remain independent. Texture completions wake the renderer, and failed detail requests retain their previews without an idle retry loop. See performance.md for hardware measurements and their limits.
+
 ## Open studio
 
 Uploads use local browser object URLs and a canvas downscale to a maximum 2048px edge. PNG, JPG, WebP and AVIF under 25 MB are supported. Request-generation checks ensure the latest selection wins. Uploaded content is never transmitted or persisted and is excluded from public artwork sharing. The Studio can save a screenshot of the image hanging in the actual room with adjustable spotlight intensity.
+
+## Phone AR
+
+Every catalog artwork offers **View in your room**, then **Start AR** when a compatible launch route is detected. A lazy-loaded, locally hosted model-viewer 4.3.1 bundle displays a framed 3D preview and supports WebXR / Android Scene Viewer / Apple Quick Look. Each work has a self-contained GLB and a separately authored vertical-plane USDZ under public/ar. The image's longest edge is 1 meter, the bronze border adds 2 cm per side, and the frame is 3 cm deep. Pinch resizing remains enabled. On unsupported devices the 3D preview remains available. Local Studio uploads are excluded from the public AR catalog.
+
+All 358 pairs total 87.91 MB, but no model or viewer bundle loads until its AR preview opens. GLBs and USDZs are at most 351 KB and 361 KB respectively. The viewer is removed when closed, and the main gallery remains paused behind the artwork dialog. Astra does not request raw camera frames or upload a camera feed. Model specifications and reproducible sources are under production/ar; integrity records are in ar-manifest.json and ar-validation.json. The production asset MIME types were verified in the local built Worker runtime.
+
+Physical iPhone/Android wall placement, camera permission flows, native return navigation and real-world scale remain unverified. Structural model and isolated 3D-render checks are not a substitute for that device check.
 
 ## Film, music and identity
 

@@ -1,0 +1,8 @@
+/ar/*.usdz
+  Content-Type: model/vnd.usdz+zip
+
+/ar/*.glb
+  Content-Type: model/gltf-binary
+
+/ar/*
+  Cache-Control: public, max-age=86400

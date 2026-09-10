@@ -23,6 +23,7 @@ export type Mount = {
   preview: THREE.Texture | null;
   detail: THREE.Texture | null;
   detailLoading: boolean;
+  detailFailed?: boolean;
   detailRequest: number;
   blend: number;
   pending: Promise<void> | null;
@@ -59,14 +60,20 @@ export class GalleryWorld {
   lighting = 1.5;
   lights: PoolLight[] = [];
   private detailActive = 0;
-  private frame = 0;
+  private onInvalidate?: () => void;
   private lightSelection = new Set<Mount>();
   private promises: Promise<unknown>[] = [];
   private glow: THREE.Texture;
   private sharedTextures = new Map<string, Promise<THREE.Texture>>();
+  private frameMaterials?: Map<string, THREE.MeshStandardMaterial>;
   private onProgress?: (n: number) => void;
-  constructor(renderer: THREE.WebGLRenderer, onProgress?: (n: number) => void) {
+  constructor(
+    renderer: THREE.WebGLRenderer,
+    onProgress?: (n: number) => void,
+    onInvalidate?: () => void,
+  ) {
     this.onProgress = onProgress;
+    this.onInvalidate = onInvalidate;
     this.scene.background = new THREE.Color('#16232e');
     this.scene.fog = new THREE.Fog('#16232e', 115, 245);
     this.scene.add(new THREE.HemisphereLight('#c0d3e0', '#63533d', 0.32));
@@ -86,6 +93,7 @@ export class GalleryWorld {
       light.shadow.mapSize.set(1024, 1024);
       light.shadow.bias = -0.00025;
       light.shadow.normalBias = 0.018;
+      light.shadow.autoUpdate = false;
       this.scene.add(light, light.target);
       this.lights.push({ light, mount: null });
     }
@@ -98,9 +106,17 @@ export class GalleryWorld {
     this.loadFurniture();
     this.ready = Promise.all([...this.promises, this.loadPreviews()]).then(
       () => {
-        if (!this.disposed) this.batchStaticMeshes();
+        if (!this.disposed) {
+          this.batchStaticMeshes();
+          this.invalidateShadows();
+          this.onInvalidate?.();
+        }
       },
     );
+  }
+  invalidateShadows() {
+    for (const { light } of this.lights)
+      if (light.castShadow) light.shadow.needsUpdate = true;
   }
   private batchStaticMeshes() {
     this.scene.updateMatrixWorld(true);
@@ -120,7 +136,10 @@ export class GalleryWorld {
           mesh.userData.work ||
           Array.isArray(mesh.material) ||
           mesh.material.transparent ||
-          mesh.geometry.type === 'BufferGeometry'
+          mesh instanceof THREE.SkinnedMesh ||
+          mesh instanceof THREE.InstancedMesh ||
+          Object.keys(mesh.geometry.morphAttributes).length > 0 ||
+          mesh.geometry.userData.astraBatched
         )
           continue;
         const key =
@@ -143,6 +162,7 @@ export class GalleryWorld {
         const geometry = mergeGeometries(copies);
         copies.forEach((g) => g.dispose());
         if (!geometry) continue;
+        geometry.userData.astraBatched = true;
         const merged = new THREE.Mesh(geometry, meshes[0].material);
         merged.name = 'Batched architecture';
         merged.castShadow = meshes[0].castShadow;
@@ -1022,16 +1042,23 @@ export class GalleryWorld {
     group.position.set(p.x, p.y, p.z);
     group.rotation.y = p.yaw;
     this.groups[p.chamber.index].add(group);
-    const matFrame = new THREE.MeshStandardMaterial({
-      color:
-        p.chamber.finish === 'salon'
-          ? '#a28c66'
-          : p.chamber.finish === 'timber'
-            ? '#392b20'
-            : '#151c20',
-      metalness: 0.62,
-      roughness: 0.31,
-    });
+    const frameColor =
+      p.chamber.finish === 'salon'
+        ? '#a28c66'
+        : p.chamber.finish === 'timber'
+          ? '#392b20'
+          : '#151c20';
+    const mutable = p.work.id === 'your-billboard';
+    let matFrame = mutable ? undefined : this.frameMaterials?.get(frameColor);
+    if (!matFrame) {
+      matFrame = new THREE.MeshStandardMaterial({
+        color: frameColor,
+        metalness: 0.62,
+        roughness: 0.31,
+      });
+      if (!mutable)
+        (this.frameMaterials ??= new Map()).set(frameColor, matFrame);
+    }
     group.add(
       this.box(
         p.width + 0.18,
@@ -1289,7 +1316,8 @@ export class GalleryWorld {
     };
     await Promise.all(Array.from({ length: 8 }, worker));
   }
-  update(camera: THREE.Camera, dt: number, instant = false) {
+  update(camera: THREE.Camera, dt: number, instant = false): boolean {
+    let animating = false;
     const p = camera.position;
     const sorted = [...this.mounts].sort(
       (a, b) =>
@@ -1324,6 +1352,7 @@ export class GalleryWorld {
     const assigned = new Set(this.lights.map((l) => l.mount).filter(Boolean));
     for (let i = 0; i < this.lights.length; i++) {
       const item = this.lights[i];
+      const previousMount = item.mount;
       if (instant) item.mount = near[i] || null;
       else if (item.mount && !wanted.has(item.mount)) {
         if (item.light.intensity > 0) {
@@ -1333,6 +1362,7 @@ export class GalleryWorld {
               (dt * Math.max(62, 45 * this.lighting)) / 0.18,
           );
           // Render a dark frame before moving a light or its shadow map.
+          animating = true;
           continue;
         }
         assigned.delete(item.mount);
@@ -1349,6 +1379,8 @@ export class GalleryWorld {
         continue;
       }
       const point = m.placement;
+      if (item.mount !== previousMount && item.light.castShadow)
+        item.light.shadow.needsUpdate = true;
       item.light.position.set(
         point.x + point.normal[0] * 0.72,
         Math.min(point.chamber.height - 0.5, 5.1),
@@ -1367,12 +1399,14 @@ export class GalleryWorld {
         ? target
         : item.light.intensity +
           THREE.MathUtils.clamp(target - item.light.intensity, -step, step);
+      if (Math.abs(item.light.intensity - target) > 0.0001) animating = true;
     }
     for (const m of this.mounts) {
       const distance = p.distanceTo(m.group.position);
       if (m.detail) {
         m.blend = Math.min(1, m.blend + (instant ? 1 : dt * 0.9));
         m.uniforms.detailBlend.value = m.blend;
+        if (m.blend < 1) animating = true;
         if (distance > 80 && m.placement.work.id !== 'your-billboard') {
           m.detail.dispose();
           m.detail = null;
@@ -1382,18 +1416,19 @@ export class GalleryWorld {
         }
       }
     }
-    if (++this.frame % 10 !== 0 && !instant) return;
     for (const m of sorted) {
       if (this.detailActive >= 4) break;
       if (
         m.detail ||
         m.detailLoading ||
+        m.detailFailed ||
         m.placement.work.id === 'your-billboard' ||
         p.distanceTo(m.group.position) > 42
       )
         continue;
       void this.promote(m);
     }
+    return animating;
   }
   private fallbackPreview(m: Mount) {
     if (m.preview) return;
@@ -1439,6 +1474,7 @@ export class GalleryWorld {
           if (!m.preview) this.fallbackPreview(m);
           m.uniforms.detailMap.value = t;
           m.blend = 0;
+          this.onInvalidate?.();
           resolve();
         },
         undefined,
@@ -1446,6 +1482,9 @@ export class GalleryWorld {
           this.detailActive--;
           m.detailLoading = false;
           m.pending = null;
+          // Keep the preview after a failed request; do not spin an idle retry loop.
+          m.detailFailed = true;
+          this.onInvalidate?.();
           resolve();
         },
       );
@@ -1491,6 +1530,8 @@ export class GalleryWorld {
     const next = this.addArtwork(placeWork(work, p.chamber, p.side, -4.75));
     this.studio = next;
     this.mounts.push(next);
+    this.invalidateShadows();
+    this.onInvalidate?.();
     this.textures.load(url, (t) => {
       if (this.disposed || this.studio !== next) {
         t.dispose();
@@ -1503,6 +1544,7 @@ export class GalleryWorld {
       mat.map = t;
       mat.emissiveMap = t;
       mat.needsUpdate = true;
+      this.onInvalidate?.();
     });
     return next.placement;
   }
