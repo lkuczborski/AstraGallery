@@ -1,0 +1,230 @@
+{
+  "threeRevision": "185",
+  "method": "Production GLTFLoader with Sharp-backed ImageBitmap decoding; embedded blob URLs only; no browser/GPU assertion.",
+  "models": [
+    {
+      "name": "bench",
+      "threeLoaderParseSuccess": true,
+      "decodedImagesValid": true,
+      "sceneGeometryUnchanged": true,
+      "original": {
+        "bytes": 1471840,
+        "meshCount": 14,
+        "triangles": 13768,
+        "materialCount": 3,
+        "textureCount": 3,
+        "decodedImages": 3,
+        "dimensions": [
+          3.9999847412109375,
+          0.4657154381275177,
+          0.6899999976158142
+        ],
+        "bounds": {
+          "min": [
+            -1.9999923706054688,
+            0,
+            -0.3449999988079071
+          ],
+          "max": [
+            1.9999923706054688,
+            0.4657154381275177,
+            0.3449999988079071
+          ]
+        }
+      },
+      "optimized": {
+        "bytes": 580344,
+        "meshCount": 14,
+        "triangles": 13768,
+        "materialCount": 3,
+        "textureCount": 3,
+        "decodedImages": 3,
+        "dimensions": [
+          3.9999847412109375,
+          0.4657154381275177,
+          0.6899999976158142
+        ],
+        "bounds": {
+          "min": [
+            -1.9999923706054688,
+            0,
+            -0.3449999988079071
+          ],
+          "max": [
+            1.9999923706054688,
+            0.4657154381275177,
+            0.3449999988079071
+          ]
+        }
+      }
+    },
+    {
+      "name": "burgundy-seating-island",
+      "threeLoaderParseSuccess": true,
+      "decodedImagesValid": true,
+      "sceneGeometryUnchanged": true,
+      "original": {
+        "bytes": 1429416,
+        "meshCount": 16,
+        "triangles": 21256,
+        "materialCount": 4,
+        "textureCount": 3,
+        "decodedImages": 3,
+        "dimensions": [
+          2.700000047683716,
+          0.4569999873638153,
+          2.700000047683716
+        ],
+        "bounds": {
+          "min": [
+            -1.350000023841858,
+            0,
+            -1.350000023841858
+          ],
+          "max": [
+            1.350000023841858,
+            0.4569999873638153,
+            1.350000023841858
+          ]
+        }
+      },
+      "optimized": {
+        "bytes": 842272,
+        "meshCount": 16,
+        "triangles": 21256,
+        "materialCount": 4,
+        "textureCount": 3,
+        "decodedImages": 3,
+        "dimensions": [
+          2.700000047683716,
+          0.4569999873638153,
+          2.700000047683716
+        ],
+        "bounds": {
+          "min": [
+            -1.350000023841858,
+            0,
+            -1.350000023841858
+          ],
+          "max": [
+            1.350000023841858,
+            0.4569999873638153,
+            1.350000023841858
+          ]
+        }
+      }
+    },
+    {
+      "name": "sculpture",
+      "threeLoaderParseSuccess": true,
+      "decodedImagesValid": true,
+      "sceneGeometryUnchanged": true,
+      "original": {
+        "bytes": 4247612,
+        "meshCount": 9,
+        "triangles": 42988,
+        "materialCount": 4,
+        "textureCount": 3,
+        "decodedImages": 3,
+        "dimensions": [
+          1.1573249101638794,
+          2.1684180665761232,
+          0.8640947639942169
+        ],
+        "bounds": {
+          "min": [
+            -0.5769489407539368,
+            0.007999999448657036,
+            -0.43349266052246094
+          ],
+          "max": [
+            0.5803759694099426,
+            2.1764180660247803,
+            0.430602103471756
+          ]
+        }
+      },
+      "optimized": {
+        "bytes": 1958576,
+        "meshCount": 9,
+        "triangles": 42988,
+        "materialCount": 4,
+        "textureCount": 3,
+        "decodedImages": 3,
+        "dimensions": [
+          1.1573249101638794,
+          2.1684180665761232,
+          0.8640947639942169
+        ],
+        "bounds": {
+          "min": [
+            -0.5769489407539368,
+            0.007999999448657036,
+            -0.43349266052246094
+          ],
+          "max": [
+            0.5803759694099426,
+            2.1764180660247803,
+            0.430602103471756
+          ]
+        }
+      }
+    },
+    {
+      "name": "indoor-tree",
+      "threeLoaderParseSuccess": true,
+      "decodedImagesValid": true,
+      "sceneGeometryUnchanged": true,
+      "original": {
+        "bytes": 2845416,
+        "meshCount": 10,
+        "triangles": 59062,
+        "materialCount": 9,
+        "textureCount": 5,
+        "decodedImages": 5,
+        "dimensions": [
+          1.9183204174041748,
+          3,
+          1.9776909947395325
+        ],
+        "bounds": {
+          "min": [
+            -0.9608646035194397,
+            0,
+            -0.9062343239784241
+          ],
+          "max": [
+            0.9574558138847351,
+            3,
+            1.0714566707611084
+          ]
+        }
+      },
+      "optimized": {
+        "bytes": 1845408,
+        "meshCount": 10,
+        "triangles": 59062,
+        "materialCount": 9,
+        "textureCount": 5,
+        "decodedImages": 5,
+        "dimensions": [
+          1.9183204174041748,
+          3,
+          1.9776909947395325
+        ],
+        "bounds": {
+          "min": [
+            -0.9608646035194397,
+            0,
+            -0.9062343239784241
+          ],
+          "max": [
+            0.9574558138847351,
+            3,
+            1.0714566707611084
+          ]
+        }
+      }
+    }
+  ]
+}

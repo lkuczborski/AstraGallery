@@ -1,0 +1,775 @@
+{
+  "formatVersion": 1,
+  "tool": "sharp",
+  "sharpVersions": {
+    "aom": "3.13.1",
+    "archive": "3.8.2",
+    "cairo": "1.18.4",
+    "cgif": "0.5.0",
+    "exif": "0.6.25",
+    "expat": "2.7.3",
+    "ffi": "3.5.2",
+    "fontconfig": "2.17.1",
+    "freetype": "2.14.1",
+    "fribidi": "1.0.16",
+    "glib": "2.86.1",
+    "harfbuzz": "12.1.0",
+    "heif": "1.20.2",
+    "highway": "1.3.0",
+    "imagequant": "2.4.1",
+    "lcms": "2.17",
+    "mozjpeg": "0826579",
+    "pango": "1.57.0",
+    "pixman": "0.46.4",
+    "png": "1.6.50",
+    "proxy-libintl": "0.5",
+    "rsvg": "2.61.2",
+    "spng": "0.7.4",
+    "tiff": "4.7.1",
+    "vips": "8.17.3",
+    "webp": "1.6.0",
+    "xml2": "2.15.1",
+    "zlib-ng": "2.2.5",
+    "sharp": "0.34.5"
+  },
+  "strategy": "Existing resolution; normal and roughness pixel-lossless WebP; base color WebP quality88, alphaQuality100; unchanged geometry/materials; EXT_texture_webp required by model textures.",
+  "maps": [
+    {
+      "source": "public/textures/charcoal_plaster_basecolor.png",
+      "file": "public/textures/charcoal_plaster_basecolor.webp",
+      "name": "charcoal_plaster_basecolor",
+      "beforeBytes": 969420,
+      "afterBytes": 10188,
+      "sourceSHA256": "f1cb660b373c93d47ac0b3212d279b581c76d31a5d872dd93d6c8d5af46dcf45",
+      "outputSHA256": "5a2769a1e185f668f81b2f305b000bf063f00c5921de7a8eded012431e837a75",
+      "encoding": {
+        "quality": 88,
+        "alphaQuality": 100,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": false,
+      "rgbMAE": 0.73391,
+      "rgbMaxError": 6,
+      "rgbPSNR": 48.078
+    },
+    {
+      "source": "public/textures/charcoal_plaster_normal.png",
+      "file": "public/textures/charcoal_plaster_normal.webp",
+      "name": "charcoal_plaster_normal",
+      "beforeBytes": 1703608,
+      "afterBytes": 1031478,
+      "sourceSHA256": "7a2dbd4d4cdb0095661992f21f5009ede61b3e85fdb9cb17262c29fde8dc9ffd",
+      "outputSHA256": "413424aa6e1c6e8cb685889436ffeaafcb9267982953d86f7290cd6dfb127c0e",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/charcoal_plaster_roughness.png",
+      "file": "public/textures/charcoal_plaster_roughness.webp",
+      "name": "charcoal_plaster_roughness",
+      "beforeBytes": 914590,
+      "afterBytes": 460664,
+      "sourceSHA256": "ef812431109ccec01f27134a7888fa83ada3420c982760eb4c93f4833a4fea95",
+      "outputSHA256": "0469c174bb21938d9e913cb45e77f9dc97e98bafd8b96ecc8c666469ce748937",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/walnut_planks_basecolor.png",
+      "file": "public/textures/walnut_planks_basecolor.webp",
+      "name": "walnut_planks_basecolor",
+      "beforeBytes": 506149,
+      "afterBytes": 19194,
+      "sourceSHA256": "b63805a985db5dfc769f2d427b82591bf4c6a4d8b00051717d839372bc340138",
+      "outputSHA256": "638123e7ff829dca3c726793d95fbda4f4a662ef12d1796831422b73e5943150",
+      "encoding": {
+        "quality": 88,
+        "alphaQuality": 100,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": false,
+      "rgbMAE": 1.01288,
+      "rgbMaxError": 13,
+      "rgbPSNR": 45.354
+    },
+    {
+      "source": "public/textures/walnut_planks_normal.png",
+      "file": "public/textures/walnut_planks_normal.webp",
+      "name": "walnut_planks_normal",
+      "beforeBytes": 276742,
+      "afterBytes": 78740,
+      "sourceSHA256": "7b30ce8b539cde174cfd82a0498fc0315fbfdf9ae348ad656fbfcb0c21e3108a",
+      "outputSHA256": "5b6a87ad91789a3e8c37e33ca6d9d175784666d655d696cbf0902fb5640653e9",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/walnut_planks_roughness.png",
+      "file": "public/textures/walnut_planks_roughness.webp",
+      "name": "walnut_planks_roughness",
+      "beforeBytes": 240205,
+      "afterBytes": 70118,
+      "sourceSHA256": "c85a7863917639ce56672edf212c9c25a0c33bc9207c364726c8b0f2773e1771",
+      "outputSHA256": "1b0b345a51b978eeb94551af0ab84e1e15f20a33787da6b9ba81868c20da3493",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/dark_terrazzo_basecolor.png",
+      "file": "public/textures/dark_terrazzo_basecolor.webp",
+      "name": "dark_terrazzo_basecolor",
+      "beforeBytes": 1009562,
+      "afterBytes": 200862,
+      "sourceSHA256": "74a98ddb849fb1ae853d69059ba1a4392dd0ac75cd13f43d9135df414d0f9c1d",
+      "outputSHA256": "c3781abea78172a5850360d5b8200b40a961d1c569f5632366a0ed463912d80b",
+      "encoding": {
+        "quality": 88,
+        "alphaQuality": 100,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": false,
+      "rgbMAE": 1.59643,
+      "rgbMaxError": 32,
+      "rgbPSNR": 39.292
+    },
+    {
+      "source": "public/textures/dark_terrazzo_normal.png",
+      "file": "public/textures/dark_terrazzo_normal.webp",
+      "name": "dark_terrazzo_normal",
+      "beforeBytes": 1042364,
+      "afterBytes": 442922,
+      "sourceSHA256": "3f9fb074b08b7593611c4c2e41f9144465bc390c497638fe97729122ef39478a",
+      "outputSHA256": "73ed38ca3c64a2d80cb2aa812b39f6fcbfe32ee31460cfbad56170922408e5af",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/dark_terrazzo_roughness.png",
+      "file": "public/textures/dark_terrazzo_roughness.webp",
+      "name": "dark_terrazzo_roughness",
+      "beforeBytes": 841573,
+      "afterBytes": 404284,
+      "sourceSHA256": "0b71d2e8b3d084e7cd4369967d6edcacfa409bee85d9c039a9c1ab9eb33625a6",
+      "outputSHA256": "75625f037b61368975fbba2bedef3c068934ca99b6b025e4720b1faf4c25b68d",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 1024,
+      "height": 1024,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    }
+  ],
+  "previews": [
+    {
+      "source": "public/textures/charcoal_plaster_basecolor.png",
+      "file": "public/textures/charcoal_plaster_basecolor.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "charcoal_plaster_basecolor",
+      "beforeBytes": 52710,
+      "afterBytes": 1246,
+      "sourceSHA256": "0b114321382cb3d82bd82cef1639c96561cd96644cf23661663f336d0de2c030",
+      "outputSHA256": "06e6a3686a07ff8cab6420299c42fe7810ac042b8524db610a01cc0d0bd79de9",
+      "encoding": {
+        "quality": 88,
+        "alphaQuality": 100,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": false,
+      "rgbMAE": 0.87557,
+      "rgbMaxError": 5,
+      "rgbPSNR": 46.792
+    },
+    {
+      "source": "public/textures/charcoal_plaster_normal.png",
+      "file": "public/textures/charcoal_plaster_normal.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "charcoal_plaster_normal",
+      "beforeBytes": 74317,
+      "afterBytes": 52864,
+      "sourceSHA256": "93a18c0c209f448bd0e85b2858e4e6f1e8dd5df6e05742c56a140df4b3d3b713",
+      "outputSHA256": "7614a3b011d76e902775ab16b1ca2cb40c457ffeca0f60c6e2007aa658c72919",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/charcoal_plaster_roughness.png",
+      "file": "public/textures/charcoal_plaster_roughness.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "charcoal_plaster_roughness",
+      "beforeBytes": 41114,
+      "afterBytes": 21768,
+      "sourceSHA256": "b3ae210511caaab421de535b13defa9fe07c3a453f824cbfa20b04e2080dd863",
+      "outputSHA256": "9fe498ce18e6318c97e95fe926bfe692a99b9e1c87001d5a92a821243c05cb0b",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/walnut_planks_basecolor.png",
+      "file": "public/textures/walnut_planks_basecolor.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "walnut_planks_basecolor",
+      "beforeBytes": 43654,
+      "afterBytes": 3034,
+      "sourceSHA256": "23169d35009684b0ec387d3d002c85af7ce22a9715138040d11b694b1d1c246c",
+      "outputSHA256": "1d7f6b44be5b5a67626769325c34efe7048e81a48811bf8c0cabd5646da87537",
+      "encoding": {
+        "quality": 88,
+        "alphaQuality": 100,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": false,
+      "rgbMAE": 1.53215,
+      "rgbMaxError": 14,
+      "rgbPSNR": 41.688
+    },
+    {
+      "source": "public/textures/walnut_planks_normal.png",
+      "file": "public/textures/walnut_planks_normal.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "walnut_planks_normal",
+      "beforeBytes": 16990,
+      "afterBytes": 11846,
+      "sourceSHA256": "8d6c7b44129aea4b42028dd6900edc19b2ce3adac6ef071ef7aa397e54406ba8",
+      "outputSHA256": "24f95a1423e85422045f60ac27132deaec05913c59682656f9d586564981bd3c",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/walnut_planks_roughness.png",
+      "file": "public/textures/walnut_planks_roughness.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "walnut_planks_roughness",
+      "beforeBytes": 17648,
+      "afterBytes": 11102,
+      "sourceSHA256": "bbed8b8925b1c95245c6fc5badb8e7ef114dbfa67f3612c04d94862255ddf8a4",
+      "outputSHA256": "6d8d5c4fd0ee908837af57f9a40f7b28cd414e68cc2bf354fc7143ff26d77387",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/dark_terrazzo_basecolor.png",
+      "file": "public/textures/dark_terrazzo_basecolor.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "dark_terrazzo_basecolor",
+      "beforeBytes": 103955,
+      "afterBytes": 17146,
+      "sourceSHA256": "6e2ad4829043b1830583509c9e28e064494d2670f59dd55b6101a84412960462",
+      "outputSHA256": "b5daeedafa76fba4800cd976eb307b5cca1ccbbfda74405df95de6ccfe8fb7fa",
+      "encoding": {
+        "quality": 88,
+        "alphaQuality": 100,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": false,
+      "rgbMAE": 2.11382,
+      "rgbMaxError": 31,
+      "rgbPSNR": 38.901
+    },
+    {
+      "source": "public/textures/dark_terrazzo_normal.png",
+      "file": "public/textures/dark_terrazzo_normal.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "dark_terrazzo_normal",
+      "beforeBytes": 31625,
+      "afterBytes": 19376,
+      "sourceSHA256": "c0a8b6e04c854bbba045d7566b8ee02613b72070ea10c80d024e54879a7121b4",
+      "outputSHA256": "74baaa61edbe7e90232a5306d927c90d2c8aecaff556b61f818e61fc01e8e8ca",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    },
+    {
+      "source": "public/textures/dark_terrazzo_roughness.png",
+      "file": "public/textures/dark_terrazzo_roughness.preview.webp",
+      "resampledFromOriginal": true,
+      "name": "dark_terrazzo_roughness",
+      "beforeBytes": 47525,
+      "afterBytes": 26106,
+      "sourceSHA256": "132a8513a688809ed4c3b1ac71922b313211705b785e6be8f073aa9148a31c2c",
+      "outputSHA256": "25bf9a86862b2950eb0792538ac04b1aea2fc1cee72ca31d91503b836a77e90d",
+      "encoding": {
+        "lossless": true,
+        "effort": 6
+      },
+      "width": 256,
+      "height": 256,
+      "alphaExact": true,
+      "rgbExact": true,
+      "rgbMAE": 0,
+      "rgbMaxError": 0,
+      "rgbPSNR": "lossless"
+    }
+  ],
+  "logo": {
+    "source": "public/brand/astra-gallery-logo-v2.png",
+    "file": "public/brand/astra-gallery-logo-v2.webp",
+    "name": "astra-gallery-logo-v2",
+    "beforeBytes": 288867,
+    "afterBytes": 185644,
+    "sourceSHA256": "7212f9acbe4eb28154d865aa4a13830b4532f226ec4b7fa46aaaa633ee6078f4",
+    "outputSHA256": "4c4489dc8129e6d3e74ba1ac43b24dc542e8bceeeb3f19cb39a06721dbca7960",
+    "encoding": {
+      "lossless": true,
+      "effort": 6
+    },
+    "width": 2172,
+    "height": 724,
+    "alphaExact": true,
+    "rgbExact": true,
+    "rgbMAE": 0,
+    "rgbMaxError": 0,
+    "rgbPSNR": "lossless"
+  },
+  "models": [
+    {
+      "file": "public/models/bench.glb",
+      "source": "production/asset-optimization/original-models/bench.glb",
+      "beforeBytes": 1471840,
+      "afterBytes": 580344,
+      "sourceSHA256": "fd19c29917e9c22f712a43e63c57732215d3a5d6016a46eba97110e749fa6ea9",
+      "outputSHA256": "6d027f480420c443d1f2052591c49dd873920fcede964999fb85d29f758c0e34",
+      "meshes": 14,
+      "materials": 3,
+      "triangles": 13768,
+      "geometryBytesUnchanged": true,
+      "geometryBufferViewsSHA256": "4571f3892ddc0a23c7ad54042a4c8af3657728a34d5e5eaf3904c19fd1886a3a",
+      "accessorBoundsValid": true,
+      "webpExtensionRequired": true,
+      "images": [
+        {
+          "name": "walnut_normal",
+          "beforeBytes": 181389,
+          "afterBytes": 44714,
+          "sourceSHA256": "25a8a43064c037f943c5396ff40a323a3c3f5834be5a1d9b817b176ed8df9331",
+          "outputSHA256": "5c1327cb66aa8eb08a6b401451e93df47b7bb68e3c414702559b5c75cf715c1e",
+          "encoding": {
+            "lossless": true,
+            "effort": 6
+          },
+          "width": 2048,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": true,
+          "rgbMAE": 0,
+          "rgbMaxError": 0,
+          "rgbPSNR": "lossless"
+        },
+        {
+          "name": "walnut_basecolor",
+          "beforeBytes": 605087,
+          "afterBytes": 23164,
+          "sourceSHA256": "b7d4babb96717e7c17af77c652ee8cd995bcbe82416970d76dcd4ea86e9b69fa",
+          "outputSHA256": "6b6c226bcedb53d0e0d8f5ea95a7801116ace77966f8b4c9a98a2846d0f4d1eb",
+          "encoding": {
+            "quality": 88,
+            "alphaQuality": 100,
+            "effort": 6
+          },
+          "width": 2048,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": false,
+          "rgbMAE": 1.08514,
+          "rgbMaxError": 8,
+          "rgbPSNR": 45
+        },
+        {
+          "name": "walnut_roughness",
+          "beforeBytes": 278227,
+          "afterBytes": 105176,
+          "sourceSHA256": "2263e62172353b013ab1065beccd8e47335447ce133ddfd935f7ce4679031052",
+          "outputSHA256": "b9e629912a29b14fbf07de73c1bbede000dcaa11003bfb6e0bbeca39d75d83bc",
+          "encoding": {
+            "lossless": true,
+            "effort": 6
+          },
+          "width": 2048,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": true,
+          "rgbMAE": 0,
+          "rgbMaxError": 0,
+          "rgbPSNR": "lossless"
+        }
+      ]
+    },
+    {
+      "file": "public/models/burgundy-seating-island.glb",
+      "source": "production/asset-optimization/original-models/burgundy-seating-island.glb",
+      "beforeBytes": 1429416,
+      "afterBytes": 842272,
+      "sourceSHA256": "3a4ec2e2415f35ce04cc81e02d3605f072976088bea1396379af065bea173003",
+      "outputSHA256": "4c19ef3ecf0795fadcddd8ae849ae6859ecd219a7daa1ebe5305d8097730e5c0",
+      "meshes": 16,
+      "materials": 4,
+      "triangles": 21256,
+      "geometryBytesUnchanged": true,
+      "geometryBufferViewsSHA256": "598d711e0b4dba6d65050d29849a548c6146de4095beebb8286977e0ee501cfd",
+      "accessorBoundsValid": true,
+      "webpExtensionRequired": true,
+      "images": [
+        {
+          "name": "burgundy_woven_normal",
+          "beforeBytes": 462104,
+          "afterBytes": 278476,
+          "sourceSHA256": "a74316f96d75404ef07aa6ac19b0b24d4b88e6458cb3d592debe51a205d5013a",
+          "outputSHA256": "20ebfb57d99cd31cdf623f6899b4acc7f21484a62db2330b477445bc75eaa8dd",
+          "encoding": {
+            "lossless": true,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": true,
+          "rgbMAE": 0,
+          "rgbMaxError": 0,
+          "rgbPSNR": "lossless"
+        },
+        {
+          "name": "burgundy_woven_basecolor",
+          "beforeBytes": 291904,
+          "afterBytes": 720,
+          "sourceSHA256": "0547149c6ae71bcfc26d7b0a577b12626cc614aee3574abc197247c43d254b88",
+          "outputSHA256": "e19818d3a1307c03b9b236f690e9b55116b0428eb4f6c340d6404dc4d71467c0",
+          "encoding": {
+            "quality": 88,
+            "alphaQuality": 100,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": false,
+          "rgbMAE": 0.66391,
+          "rgbMaxError": 6,
+          "rgbPSNR": 48.276
+        },
+        {
+          "name": "burgundy_woven_roughness",
+          "beforeBytes": 253218,
+          "afterBytes": 140760,
+          "sourceSHA256": "4e886e7e38a8d691767e76ddcb064cc1daa0089c0551c8078891fef7239891e0",
+          "outputSHA256": "b10319dcf1fac81c1e9ea640f3aa32e30da8bd97750500e104b3f104968783e8",
+          "encoding": {
+            "lossless": true,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": true,
+          "rgbMAE": 0,
+          "rgbMaxError": 0,
+          "rgbPSNR": "lossless"
+        }
+      ]
+    },
+    {
+      "file": "public/models/sculpture.glb",
+      "source": "production/asset-optimization/original-models/sculpture.glb",
+      "beforeBytes": 4247612,
+      "afterBytes": 1958576,
+      "sourceSHA256": "222243a2326a9332d2a94f8e5781aff2c2b628719874128b16e147e63abec2ae",
+      "outputSHA256": "7de20df9c4a97d992ac28005933523adba322ef6a812e541a4f5357c2c5ddb12",
+      "meshes": 9,
+      "materials": 4,
+      "triangles": 42988,
+      "geometryBytesUnchanged": true,
+      "geometryBufferViewsSHA256": "a46a37ea9ba9281119c3b3e6611c86f386b1be5d0c22428d9bd7f3a6f2b0059a",
+      "accessorBoundsValid": true,
+      "webpExtensionRequired": true,
+      "images": [
+        {
+          "name": "limestone_normal",
+          "beforeBytes": 1289562,
+          "afterBytes": 621718,
+          "sourceSHA256": "e5b7237629d8b471b145e709d29542da0fa5b9a66888a635986f4ea7b8c5c668",
+          "outputSHA256": "9ea029436ad9f10c8a50ad9909d0079148ac2318514a8542e9ae118d1ce441c4",
+          "encoding": {
+            "lossless": true,
+            "effort": 6
+          },
+          "width": 1024,
+          "height": 1024,
+          "alphaExact": true,
+          "rgbExact": true,
+          "rgbMAE": 0,
+          "rgbMaxError": 0,
+          "rgbPSNR": "lossless"
+        },
+        {
+          "name": "limestone_basecolor",
+          "beforeBytes": 1230027,
+          "afterBytes": 33942,
+          "sourceSHA256": "2dd3ae2406b745fc5b4e883092266a036941881336d0c7be4a9b85de53771f58",
+          "outputSHA256": "c20cd4ee0646539cd549777f695be359c7eb9a6d7e1de54663fff46955141768",
+          "encoding": {
+            "quality": 88,
+            "alphaQuality": 100,
+            "effort": 6
+          },
+          "width": 1024,
+          "height": 1024,
+          "alphaExact": true,
+          "rgbExact": false,
+          "rgbMAE": 0.86444,
+          "rgbMaxError": 18,
+          "rgbPSNR": 45.103
+        },
+        {
+          "name": "limestone_roughness",
+          "beforeBytes": 936434,
+          "afterBytes": 511158,
+          "sourceSHA256": "1de3c21895f813dc20234957f6a42a5012321b68a707a68b78bb43eea9f8047b",
+          "outputSHA256": "fc27b709aad879779c4cd5564b5784c5e6307672bdc6e5014e4d4fe9672063a2",
+          "encoding": {
+            "lossless": true,
+            "effort": 6
+          },
+          "width": 1024,
+          "height": 1024,
+          "alphaExact": true,
+          "rgbExact": true,
+          "rgbMAE": 0,
+          "rgbMaxError": 0,
+          "rgbPSNR": "lossless"
+        }
+      ]
+    },
+    {
+      "file": "public/models/indoor-tree.glb",
+      "source": "production/asset-optimization/original-models/indoor-tree.glb",
+      "beforeBytes": 2845416,
+      "afterBytes": 1845408,
+      "sourceSHA256": "81a9346315b0fcbb08222d221f44242cfcec385086caae7b4bb991074ec840f4",
+      "outputSHA256": "82f3a13d3443c4725ce6c265a66485b29d663fe147b1cdf24587006c42b62698",
+      "meshes": 7,
+      "materials": 9,
+      "triangles": 59062,
+      "geometryBytesUnchanged": true,
+      "geometryBufferViewsSHA256": "21b2b2cf4ab50bbbf72c54c07ab0b6d676d76562504cbffde6de0be7cb425caf",
+      "accessorBoundsValid": true,
+      "webpExtensionRequired": true,
+      "images": [
+        {
+          "name": "leaf_normal",
+          "beforeBytes": 30747,
+          "afterBytes": 3446,
+          "sourceSHA256": "78c4227df81cb01e12701952b872ec323d62b55921cc2e6577ff6bab9768d6e4",
+          "outputSHA256": "3ff6b3ddb13f758de2baac206d69ff1ef25d1bb6098dbdb75666e1e03409c382",
+          "encoding": {
+            "lossless": true,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": true,
+          "rgbMAE": 0,
+          "rgbMaxError": 0,
+          "rgbPSNR": "lossless"
+        },
+        {
+          "name": "leaf_tone_0",
+          "beforeBytes": 239977,
+          "afterBytes": 2162,
+          "sourceSHA256": "f21ef91314311b66fa267de1ec00548f301101593248d6d8d1e218ef15ff8937",
+          "outputSHA256": "db0199094c15c1a96dd745c64c0f57087a25842cd75e2006cca1ecf359c031fd",
+          "encoding": {
+            "quality": 88,
+            "alphaQuality": 100,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": false,
+          "rgbMAE": 0.59196,
+          "rgbMaxError": 6,
+          "rgbPSNR": 49.137
+        },
+        {
+          "name": "leaf_tone_1",
+          "beforeBytes": 245259,
+          "afterBytes": 2288,
+          "sourceSHA256": "5fdcb79360dc656063461fb3b852f09c663dd90b292b000e13ff34a74e4d9e6d",
+          "outputSHA256": "192c8246a0648843b487174d77f20cacb7e461afccadb82800bc35d7bf83b836",
+          "encoding": {
+            "quality": 88,
+            "alphaQuality": 100,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": false,
+          "rgbMAE": 0.69291,
+          "rgbMaxError": 5,
+          "rgbPSNR": 48.396
+        },
+        {
+          "name": "leaf_tone_2",
+          "beforeBytes": 246113,
+          "afterBytes": 2932,
+          "sourceSHA256": "d6a0a77b10452fa6bdc96c3fce3457e217d9fc712a84fe6a8a4b5840c7c291ee",
+          "outputSHA256": "84959380e0ff9bf08f1e8469d1f88ed24d48424291868f74a78e5b136279aa01",
+          "encoding": {
+            "quality": 88,
+            "alphaQuality": 100,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": false,
+          "rgbMAE": 0.71451,
+          "rgbMaxError": 5,
+          "rgbPSNR": 48.335
+        },
+        {
+          "name": "leaf_tone_3",
+          "beforeBytes": 252210,
+          "afterBytes": 3130,
+          "sourceSHA256": "30bffe1125b8dc864c32c28fe49a65da28d45e8b9d42400d699ede8be38f43ba",
+          "outputSHA256": "d7b428b672f8068f0a3935f6a81e241c7edfb5980df21d420399f1238635388e",
+          "encoding": {
+            "quality": 88,
+            "alphaQuality": 100,
+            "effort": 6
+          },
+          "width": 512,
+          "height": 512,
+          "alphaExact": true,
+          "rgbExact": false,
+          "rgbMAE": 0.76065,
+          "rgbMaxError": 6,
+          "rgbPSNR": 47.957
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "mapBefore": 7504213,
+    "mapAfter": 2718450,
+    "modelBefore": 9994284,
+    "modelAfter": 5226600,
+    "previewMaps": 164488,
+    "logo": 185644,
+    "previewMapsAndLogo": 350132,
+    "before": 17498497,
+    "after": 7945050
+  }
+}

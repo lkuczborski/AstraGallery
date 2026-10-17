@@ -60,7 +60,8 @@ function Star() {
   return (
     <img
       className="gallery-logo"
-      src="/brand/astra-gallery-logo-v2.png"
+      src="/brand/astra-gallery-logo-v2.webp"
+      crossOrigin="anonymous"
       alt="Astra Gallery"
     />
   );

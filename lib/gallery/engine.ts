@@ -65,6 +65,7 @@ export class GalleryEngine {
   private nextFrameAt = 0;
   private inFrame = false;
   private resizePending = false;
+  private prepared = false;
   private frameSamples: number[] = [];
   private stableFrames = 0;
   private pixelRatio = Math.min(devicePixelRatio, 1.5);
@@ -127,14 +128,23 @@ export class GalleryEngine {
     });
     this.resizeObserver.observe(host);
     this.bindEvents();
-    this.ready = this.world.ready
+    this.ready = this.world.initialReady
       .then(() => {
         if (this.disposed) return;
+        this.prepared = true;
+        this.camera.rotation.set(this.pitch, this.yaw, 0, 'YXZ');
+        this.applyPendingSize();
         this.world.update(this.camera, 1, true);
-        this.invalidate();
+        // Reveal the entrance only after a real frame, even when a deep-linked
+        // artwork dialog has paused animation during startup.
+        this.renderer.render(this.scene, this.camera);
+        performance.mark('astra-gallery-ready');
         callbacks.onReady();
+        this.invalidate();
       })
-      .catch(() => callbacks.onError());
+      .catch(() => {
+        if (!this.disposed) callbacks.onError();
+      });
     this.updateLocation();
     this.invalidate();
   }
@@ -142,6 +152,7 @@ export class GalleryEngine {
   invalidate = () => {
     if (
       this.disposed ||
+      !this.prepared ||
       this.blocked ||
       document.hidden ||
       this.animation ||

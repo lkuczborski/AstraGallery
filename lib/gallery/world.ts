@@ -15,6 +15,7 @@ import {
 } from './layout';
 import type { Artwork } from './data';
 import { floorSurfaces } from './floors';
+import previewAtlas from './preview-atlas.json';
 export type Mount = {
   placement: Placement;
   group: THREE.Group;
@@ -54,6 +55,7 @@ export class GalleryWorld {
   targets: THREE.Object3D[] = [];
   occluders: THREE.Object3D[] = [];
   textures = new THREE.TextureLoader();
+  initialReady: Promise<void>;
   ready: Promise<void>;
   disposed = false;
   studio: Mount | null = null;
@@ -63,6 +65,8 @@ export class GalleryWorld {
   private onInvalidate?: () => void;
   private lightSelection = new Set<Mount>();
   private promises: Promise<unknown>[] = [];
+  private background: (() => Promise<unknown>)[] = [];
+  private detailsEnabled = false;
   private glow: THREE.Texture;
   private sharedTextures = new Map<string, Promise<THREE.Texture>>();
   private frameMaterials?: Map<string, THREE.MeshStandardMaterial>;
@@ -104,15 +108,42 @@ export class GalleryWorld {
     for (const p of placements) this.mounts.push(this.addArtwork(p));
     this.buildStudio();
     this.loadFurniture();
-    this.ready = Promise.all([...this.promises, this.loadPreviews()]).then(
-      () => {
-        if (!this.disposed) {
-          this.batchStaticMeshes();
-          this.invalidateShadows();
-          this.onInvalidate?.();
-        }
-      },
-    );
+    const initial = [...this.promises, this.loadPreviews()];
+    let completed = 0;
+    this.initialReady = Promise.all(
+      initial.map((task) =>
+        task.then(() => {
+          if (!this.disposed) this.onProgress?.(++completed / initial.length);
+        }),
+      ),
+    ).then(() => {
+      if (!this.disposed) {
+        this.batchStaticMeshes();
+        this.invalidateShadows();
+      }
+    });
+    // Keep complete readiness for film/export callers, without making visitors
+    // wait for distant furniture and full-resolution surface textures.
+    this.ready = this.initialReady.then(async () => {
+      await new Promise<void>((resolve) => setTimeout(resolve, 0));
+      if (this.disposed) return;
+      this.detailsEnabled = true;
+      this.onInvalidate?.();
+      let next = 0;
+      const worker = async () => {
+        while (next < this.background.length && !this.disposed)
+          await this.background[next++]();
+      };
+      await Promise.all([worker(), worker()]);
+      if (!this.disposed) {
+        this.batchStaticMeshes();
+        this.invalidateShadows();
+        this.onInvalidate?.();
+      }
+    });
+    // Interactive callers await initialReady; export callers may await ready.
+    // Observe the latter even when only the entrance promise is consumed.
+    void this.ready.catch(() => undefined);
   }
   invalidateShadows() {
     for (const { light } of this.lights)
@@ -283,19 +314,24 @@ export class GalleryWorld {
       ['roughness', 'roughnessMap'],
     ] as const) {
       if (property === 'map' && !baseColor) continue;
-      this.promises.push(
-        this.texture('/textures/' + prefix + '_' + suffix + '.png')
+      const path = '/textures/' + prefix + '_' + suffix;
+      const apply = (url: string) =>
+        this.texture(url)
           .then((original) => {
             if (this.disposed) return;
             const t = original.clone();
             t.wrapS = t.wrapT = THREE.RepeatWrapping;
             t.repeat.set(repeatX, repeatY);
             if (property === 'map') t.colorSpace = THREE.SRGBColorSpace;
+            const previous = mat[property];
             mat[property] = t;
             mat.needsUpdate = true;
+            previous?.dispose();
+            this.onInvalidate?.();
           })
-          .catch(() => undefined),
-      );
+          .catch(() => undefined);
+      this.promises.push(apply(path + '.preview.webp'));
+      this.background.push(() => apply(path + '.webp'));
     }
     return mat;
   }
@@ -902,8 +938,9 @@ export class GalleryWorld {
       this.scene.add(this.box(0.06, 0.12, 4.7, x, 4.18, 16.1, bronze));
     this.scene.add(this.box(13.4, 0.045, 0.06, 0, 4.11, 18.4, warmLED));
     this.promises.push(
-      this.texture('/brand/astra-gallery-logo-v2.png')
+      this.texture('/brand/astra-gallery-logo-v2.webp')
         .then((t) => {
+          if (this.disposed) return;
           t.colorSpace = THREE.SRGBColorSpace;
           const logo = this.plane(
             12.8,
@@ -1196,26 +1233,39 @@ export class GalleryWorld {
   private loadFurniture() {
     const loader = new GLTFLoader();
     const load = (path: string, fn: (o: THREE.Group) => void) => {
-      this.promises.push(
-        new Promise<void>((resolve) =>
-          loader.load(
-            path,
-            (a) => {
-              if (!this.disposed) {
-                a.scene.traverse((o) => {
-                  if (o instanceof THREE.Mesh) {
-                    o.castShadow = true;
-                    o.receiveShadow = true;
-                  }
-                });
-                fn(a.scene);
-              }
-              resolve();
-            },
-            undefined,
-            () => resolve(),
+      this.background.push(
+        () =>
+          new Promise<void>((resolve) =>
+            loader.load(
+              path,
+              (a) => {
+                if (!this.disposed) {
+                  a.scene.traverse((o) => {
+                    if (o instanceof THREE.Mesh) {
+                      o.castShadow = true;
+                      o.receiveShadow = true;
+                    }
+                  });
+                  fn(a.scene);
+                  this.invalidateShadows();
+                  this.onInvalidate?.();
+                } else {
+                  a.scene.traverse((o) => {
+                    if (o instanceof THREE.Mesh)
+                      for (const material of Array.isArray(o.material)
+                        ? o.material
+                        : [o.material])
+                        for (const value of Object.values(material))
+                          if (value instanceof THREE.Texture) value.dispose();
+                  });
+                  this.disposeGroup(a.scene);
+                }
+                resolve();
+              },
+              undefined,
+              () => resolve(),
+            ),
           ),
-        ),
       );
     };
     load('/models/bench.glb', (base) => {
@@ -1277,44 +1327,57 @@ export class GalleryWorld {
     const list = this.mounts.filter(
       (m) => m.placement.work.id !== 'your-billboard',
     );
-    let next = 0,
-      done = 0;
-    const worker = async () => {
-      while (next < list.length) {
-        const m = list[next++];
-        try {
-          const t = await this.texture(m.placement.work.thumb);
-          if (this.disposed) return;
-          const img = t.image as HTMLImageElement;
-          const canvas = document.createElement('canvas');
-          const scale = Math.min(1, 256 / Math.max(img.width, img.height));
-          canvas.width = Math.round(img.width * scale);
-          canvas.height = Math.round(img.height * scale);
-          canvas
-            .getContext('2d')!
-            .drawImage(img, 0, 0, canvas.width, canvas.height);
-          const preview = new THREE.CanvasTexture(canvas);
-          preview.colorSpace = THREE.SRGBColorSpace;
-          preview.anisotropy = 4;
-          const previousPreview = m.preview;
-          m.preview = preview;
-          m.uniforms.detailMap.value = m.detail ?? preview;
-          const material = m.surface.material as THREE.MeshStandardMaterial;
-          material.map = preview;
-          material.emissiveMap = preview;
-          material.needsUpdate = true;
-          if (previousPreview && previousPreview !== preview)
-            previousPreview.dispose();
-          t.dispose();
-          this.sharedTextures.delete(m.placement.work.thumb);
-        } catch {
-          if (!this.disposed) this.fallbackPreview(m);
+    // One decoded sheet replaces hundreds of network round trips and decodes.
+    // Individual canvases preserve each work's UVs for the existing detail fade.
+    let atlas: THREE.Texture | undefined;
+    try {
+      atlas = await this.texture(previewAtlas.imagePath);
+      if (this.disposed) return;
+      const rects = previewAtlas.rects as Record<string, number[]>;
+      for (const m of list) {
+        const rect = rects[m.placement.work.id];
+        if (!rect) {
+          this.fallbackPreview(m);
+          continue;
         }
-        done++;
-        this.onProgress?.(done / list.length);
+        const [x, y, width, height] = rect;
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        canvas
+          .getContext('2d')!
+          .drawImage(
+            atlas.image as HTMLImageElement,
+            x,
+            y,
+            width,
+            height,
+            0,
+            0,
+            width,
+            height,
+          );
+        const preview = new THREE.CanvasTexture(canvas);
+        preview.colorSpace = THREE.SRGBColorSpace;
+        preview.anisotropy = 4;
+        const previousPreview = m.preview;
+        m.preview = preview;
+        m.uniforms.detailMap.value = m.detail ?? preview;
+        const material = m.surface.material as THREE.MeshStandardMaterial;
+        material.map = preview;
+        material.emissiveMap = preview;
+        material.needsUpdate = true;
+        if (previousPreview && previousPreview !== preview)
+          previousPreview.dispose();
       }
-    };
-    await Promise.all(Array.from({ length: 8 }, worker));
+    } catch {
+      // A failed preview sheet must not strand the visitor behind the loader.
+      // Nearby full images still replace these fallbacks as the visitor explores.
+      if (!this.disposed) for (const m of list) this.fallbackPreview(m);
+    } finally {
+      atlas?.dispose();
+      this.sharedTextures.delete(previewAtlas.imagePath);
+    }
   }
   update(camera: THREE.Camera, dt: number, instant = false): boolean {
     let animating = false;
@@ -1417,6 +1480,7 @@ export class GalleryWorld {
       }
     }
     for (const m of sorted) {
+      if (!this.detailsEnabled) break;
       if (this.detailActive >= 4) break;
       if (
         m.detail ||

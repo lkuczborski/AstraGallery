@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-const geistSans=Geist({variable:'--font-geist-sans',subsets:['latin']});
-const geistMono=Geist_Mono({variable:'--font-geist-mono',subsets:['latin']});
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
+const geistMono = Geist_Mono({
+  variable: '--font-geist-mono',
+  subsets: ['latin'],
+});
 const title = 'Astra Gallery — Codex Billboards';
 const description =
   'Step inside an immersive exhibition of community-made Codex billboards. Explore the Hall of Fame, discover themed rooms, and hang your own artwork.';
@@ -34,4 +37,22 @@ export const metadata: Metadata = {
     images: [previewImage],
   },
 };
-export default function RootLayout({children}:Readonly<{children:React.ReactNode}>){return <html lang="en"><body className={`${geistSans.variable} ${geistMono.variable}`}>{children}</body></html>}
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/artwork-previews.webp"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        {children}
+      </body>
+    </html>
+  );
+}

@@ -116,7 +116,7 @@ I also asked for smoother movement and less CPU and GPU work. Codex investigated
 
 The gallery renders when the camera, light fades or texture blends change. It stops drawing when settled, hidden or covered by a dialog. Static geometry is batched by material within rooms, shadow maps are reused, and movement gradually adjusts resolution toward a 60 fps target.
 
-All **358 low-resolution previews** finish loading before the entrance opens; sharper images fade in nearby. The building stays present as visitors walk, rather than toggling entire rooms at a distance.
+I later found that opening the gallery meant waiting for **358 separate artwork thumbnails**, all surface maps and every furniture model: **26.84 MB across 372 asset URLs**, before application code. Codex rebuilt that loading path around one compact preview atlas and small initial surface maps. The entrance asset set is now **1.42 MB across 11 URLs**, about **95% smaller**, with all 358 works already represented. Sharper artwork, full-resolution materials and decorative models load afterward; the building stays present as visitors walk. The [loading notes](documentation/loading-performance.md) explain the measurements and tradeoffs.
 
 In an isolated renderer on an **Apple M5 Pro at 1280 × 720, DPR 1**, street draw calls fell from **1,978 to 1,489**, and Hall of Fame calls from **1,439 to 1,087**—about a quarter fewer in both views. CPU submission improved there, while GPU results varied. These measurements are scoped to that fixture and hardware; they do not promise 60 fps on every phone. The [performance report](documentation/performance.md) includes the full results and tradeoffs.
 

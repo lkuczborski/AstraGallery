@@ -44,7 +44,7 @@ await build({
               : `
       import * as THREE from ${JSON.stringify(realThree)};
       export class GalleryWorld {
-        scene = new THREE.Scene(); ready = Promise.resolve(); updates = 0; remaining = 0;
+        scene = new THREE.Scene(); initialReady = Promise.resolve(); ready = this.initialReady; updates = 0; remaining = 0;
         mounts=[]; lighting=1.5;
         constructor(renderer, progress, invalidate){this.invalidate=invalidate;}
         update(){this.updates++; return this.remaining-- > 0;}
@@ -60,7 +60,7 @@ await build({
 let clock = 0,
   serial = 0;
 const queued = new Map();
-globalThis.performance = { now: () => clock };
+globalThis.performance = { now: () => clock, mark() {} };
 globalThis.requestAnimationFrame = (fn) => {
   queued.set(++serial, fn);
   return serial;
