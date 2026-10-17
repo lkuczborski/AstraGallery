@@ -26,6 +26,10 @@ The 128px atlas is intentionally a distant preview. Nearby works still fade into
 
 Image errors retain usable material colors or an artwork fallback, rather than stranding the visitor behind the loading screen. Failed full artwork requests retain their preview. Disposal guards prevent late assets from adding objects to a destroyed scene.
 
+## Entrance loading screen
+
+The backdrop is a clean render of the fully loaded gallery at `STREET_START`, using the interactive camera's 59° field of view, orientation and tone mapping. It has no baked interface or letterboxing. The browser selects a 2560 × 1440 landscape WebP (178,958 bytes) or a 1080 × 1920 portrait WebP (93,018 bytes); each was exported from the current Three.js canvas at WebP quality 0.9 after environment loading. CSS adds a 3px blur and subtle shade, while the lossless logo and the real progress indicator remain sharp in the center. This replaces the enlarged 1280 × 720 film still without adding any delay to gallery readiness.
+
 ## Reproduction and checks
 
 - `node scripts/build-artwork-atlas.mjs` regenerates and verifies all 358 atlas entries.

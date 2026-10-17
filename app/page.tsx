@@ -849,24 +849,42 @@ export default function Gallery() {
       )}
       {!ready && (
         <div className="loading">
-          <img
-            className="loading-preview"
-            src="/media/astra-gallery-preview.jpg"
-            alt=""
-            fetchPriority="high"
-          />
-          <div className="loading-card">
+          <picture className="loading-backdrop">
+            <source
+              media="(orientation: portrait)"
+              srcSet="/media/astra-gallery-entrance-portrait.webp"
+            />
+            <img
+              className="loading-preview"
+              src="/media/astra-gallery-entrance.webp"
+              alt=""
+              fetchPriority="high"
+            />
+          </picture>
+          <div className="loading-center">
             <Star />
-            <h1>Codex Billboards</h1>
-            <p>
-              {loaded < 1
-                ? `Preparing the gallery · ${Math.round(loaded * 100)}%`
-                : 'Finishing the gallery…'}
-            </p>
-            <div className="loading-track">
-              <div style={{ width: `${loaded * 100}%` }} />
+            <div
+              className="loading-progress"
+              role="progressbar"
+              aria-label="Loading Astra Gallery"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(loaded * 100)}
+              aria-valuetext={
+                loaded < 1
+                  ? `${Math.round(loaded * 100)}%`
+                  : 'Opening the gallery'
+              }
+            >
+              <div className="loading-track">
+                <div style={{ width: `${loaded * 100}%` }} />
+              </div>
+              <p aria-hidden="true">
+                {loaded < 1
+                  ? `Loading · ${Math.round(loaded * 100)}%`
+                  : 'Opening…'}
+              </p>
             </div>
-            <small>A view inside. Your interactive visit is loading.</small>
           </div>
         </div>
       )}

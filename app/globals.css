@@ -21,14 +21,15 @@
 @media(max-width:640px){.ar-guide{padding:0 3px}.ar-guide .ar-device-note{font-size:14px}.ar-start{bottom:10px}}
 .art-image-wrap.ar-image-wrap{height:clamp(340px,66dvh,650px)}.art-meta,.art-actions{flex-wrap:wrap}
 
-/* A real gallery still makes the first paint useful before WebGL is ready. */
-.loading{display:block;overflow:hidden}
-.loading-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.14)}
-.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#101a1766,transparent 65%);pointer-events:none}
-.loading-card{position:absolute;left:40px;bottom:40px;z-index:1;width:min(390px,calc(100% - 80px));padding:26px 28px;background:#17231ff2;border:1px solid #d6bb8a40;border-radius:8px;box-shadow:0 12px 40px #0003}
-.loading .gallery-logo{width:235px;max-width:100%;margin:0 0 23px}
-.loading h1{font:32px/1.15 Georgia,serif;letter-spacing:-.02em}
-.loading p{margin:18px 0 12px;font-size:13px;color:#d1d8cc}
-.loading-track{width:100%;margin-bottom:12px}
-.loading small{display:block;font-size:11px;line-height:1.6;color:#b4c1b7}
-@media(max-width:640px){.loading-card{left:20px;bottom:20px;width:calc(100% - 40px);max-width:350px;padding:22px}.loading .gallery-logo{width:210px;margin-bottom:18px}.loading h1{font-size:29px}.loading-preview{object-position:63% center}}
+/* The loading backdrop uses the fully rendered entrance's actual camera pose. */
+.loading{display:grid;place-items:center;overflow:hidden;gap:0}
+.loading-backdrop{position:absolute;inset:-6px;pointer-events:none}
+.loading-preview{display:block;width:100%;height:100%;object-fit:cover;filter:blur(3px)}
+.loading::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,#101a1766,transparent 75%),linear-gradient(#101a1740,#101a1773);pointer-events:none}
+.loading-center{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%;padding:28px}
+.loading .gallery-logo{width:min(480px,76vw);max-width:100%;margin:0;filter:drop-shadow(0 3px 18px #07110dcc)}
+.loading-progress{width:140px;margin-top:20px;text-align:center}
+.loading .loading-track{width:100%;height:2px;margin:0;background:#e8d5b433;border-radius:2px}
+.loading-track>div{background:#e4c69b}
+.loading .loading-progress p{margin:12px 0 0;color:#e4e8e0;font-size:11px;line-height:1.5;letter-spacing:.08em;font-variant-numeric:tabular-nums}
+@media(prefers-reduced-motion:reduce){.loading-track>div{transition:none}}
