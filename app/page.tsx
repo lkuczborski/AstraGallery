@@ -848,12 +848,25 @@ export default function Gallery() {
       )}
       {!ready && (
         <div className="loading">
-          <Star />
-          <p>Preparing the gallery · {Math.round(loaded * 100)}%</p>
-          <div className="loading-track">
-            <div style={{ width: `${loaded * 100}%` }} />
+          <img
+            className="loading-preview"
+            src="/media/astra-gallery-preview.jpg"
+            alt=""
+            fetchPriority="high"
+          />
+          <div className="loading-card">
+            <Star />
+            <h1>Codex Billboards</h1>
+            <p>
+              {loaded < 1
+                ? `Preparing the gallery · ${Math.round(loaded * 100)}%`
+                : 'Finishing the gallery…'}
+            </p>
+            <div className="loading-track">
+              <div style={{ width: `${loaded * 100}%` }} />
+            </div>
+            <small>A view inside. Your interactive visit is loading.</small>
           </div>
-          <small>Hanging every work before you arrive.</small>
         </div>
       )}
       <Dialog

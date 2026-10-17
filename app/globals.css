@@ -20,3 +20,15 @@
 .ar-preview{width:100%;height:100%;display:flex;flex-direction:column;gap:12px;min-height:0}.ar-model-host{flex:1;min-height:140px;position:relative;background:radial-gradient(ellipse at 50% 40%,#35423a,#17251f 75%);border-radius:6px}.ar-model-host model-viewer{width:100%;height:100%;min-height:140px;--poster-color:transparent}.ar-start{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);min-height:44px;white-space:nowrap}.ar-guide{padding:0 10px;color:#e0e5dc}.ar-guide p{margin:0 0 5px;line-height:1.45;font-size:16px}.ar-guide .ar-scale-note,.ar-guide .ar-device-note{font-size:14px;color:#c0cbbf}.art-actions .ar-button{font-size:14px}.art-dialog{overflow-y:auto}
 @media(max-width:640px){.ar-guide{padding:0 3px}.ar-guide .ar-device-note{font-size:14px}.ar-start{bottom:10px}}
 .art-image-wrap.ar-image-wrap{height:clamp(340px,66dvh,650px)}.art-meta,.art-actions{flex-wrap:wrap}
+
+/* A real gallery still makes the first paint useful before WebGL is ready. */
+.loading{display:block;overflow:hidden}
+.loading-preview{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.14)}
+.loading::after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#101a1766,transparent 65%);pointer-events:none}
+.loading-card{position:absolute;left:40px;bottom:40px;z-index:1;width:min(390px,calc(100% - 80px));padding:26px 28px;background:#17231ff2;border:1px solid #d6bb8a40;border-radius:8px;box-shadow:0 12px 40px #0003}
+.loading .gallery-logo{width:235px;max-width:100%;margin:0 0 23px}
+.loading h1{font:32px/1.15 Georgia,serif;letter-spacing:-.02em}
+.loading p{margin:18px 0 12px;font-size:13px;color:#d1d8cc}
+.loading-track{width:100%;margin-bottom:12px}
+.loading small{display:block;font-size:11px;line-height:1.6;color:#b4c1b7}
+@media(max-width:640px){.loading-card{left:20px;bottom:20px;width:calc(100% - 40px);max-width:350px;padding:22px}.loading .gallery-logo{width:210px;margin-bottom:18px}.loading h1{font-size:29px}.loading-preview{object-position:63% center}}
